@@ -22,8 +22,8 @@
     --red-dark: #B91731;
     --blue: #1368CE;
     --blue-dark: #0E4FA6;
-    --yellow: #D89E00;
-    --yellow-dark: #A67A00;
+    --orange: #E67E22;
+    --orange-dark: #B8600C;
     --green: #26890C;
     --green-dark: #1C6709;
     --white: #FFFFFF;
@@ -74,7 +74,7 @@
     margin-bottom: 8px;
     text-shadow: 0 6px 0 rgba(0,0,0,0.2);
   }
-  .start-logo span.accent { color: #FFD84D; }
+  .start-logo span.accent { color: #FFA726; }
   .start-sub {
     font-size: clamp(1rem, 3vw, 1.3rem);
     opacity: 0.85;
@@ -118,11 +118,11 @@
   .mode-chip.active {
     background: white;
     color: var(--brand);
-    border-color: #FFD84D;
+    border-color: #FFA726;
   }
 
   .btn-primary {
-    background: #FFD84D;
+    background: #FFA726;
     color: var(--brand-dark);
     border: none;
     padding: 22px 64px;
@@ -131,12 +131,12 @@
     font-weight: 900;
     border-radius: 16px;
     cursor: pointer;
-    box-shadow: 0 6px 0 #C9A300, 0 8px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 6px 0 #CC7A00, 0 8px 20px rgba(0,0,0,0.25);
     transition: transform 0.08s, box-shadow 0.08s;
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }
-  .btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #C9A300, 0 3px 8px rgba(0,0,0,0.2); }
+  .btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #CC7A00, 0 3px 8px rgba(0,0,0,0.2); }
   .btn-secondary {
     background: rgba(255,255,255,0.15);
     color: white;
@@ -171,7 +171,7 @@
     align-items: center;
     gap: 6px;
   }
-  .hud-pill.score { background: #FFD84D; color: var(--brand-dark); }
+  .hud-pill.score { background: #FFA726; color: var(--brand-dark); }
   .progress-bar {
     height: 8px;
     background: rgba(0,0,0,0.25);
@@ -181,7 +181,7 @@
   }
   .progress-fill {
     height: 100%;
-    background: #FFD84D;
+    background: #FFA726;
     border-radius: 4px;
     transition: width 0.4s cubic-bezier(.2,.8,.2,1);
   }
@@ -225,7 +225,7 @@
     /* width set dynamically; JS animates it */
   }
   .timer-fill.warn {
-    background: linear-gradient(90deg, #D89E00 0%, #FFD84D 100%);
+    background: linear-gradient(90deg, #E67E22 0%, #FFA726 100%);
   }
   .timer-fill.danger {
     background: linear-gradient(90deg, #B91731 0%, #E21B3C 100%);
@@ -366,8 +366,8 @@
   .t-red:active:not(:disabled) { background: var(--red-dark); }
   .t-blue { background: var(--blue); }
   .t-blue:active:not(:disabled) { background: var(--blue-dark); }
-  .t-yellow { background: var(--yellow); }
-  .t-yellow:active:not(:disabled) { background: var(--yellow-dark); }
+  .t-orange { background: var(--orange); }
+  .t-orange:active:not(:disabled) { background: var(--orange-dark); }
   .t-green { background: var(--green); }
   .t-green:active:not(:disabled) { background: var(--green-dark); }
 
@@ -461,7 +461,7 @@
   }
   .results-sub { opacity: 0.85; margin-bottom: 20px; font-weight: 600; text-align: center; }
   .score-hero {
-    background: #FFD84D;
+    background: #FFA726;
     color: var(--brand-dark);
     border-radius: 24px;
     padding: 28px 40px;
@@ -540,7 +540,7 @@
     border-radius: 3px;
     overflow: hidden;
   }
-  .cat-bar-fill { height: 100%; background: #FFD84D; }
+  .cat-bar-fill { height: 100%; background: #FFA726; }
 
   .review-section {
     width: 100%;
@@ -567,7 +567,7 @@
   }
   .miss-q { font-weight: 700; margin-bottom: 4px; }
   .miss-a { opacity: 0.9; }
-  .miss-a b { color: #FFD84D; }
+  .miss-a b { color: #FFA726; }
 
   .results-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
@@ -841,7 +841,7 @@ const SHAPES = {
 const TILE_STYLES = [
   { cls: 't-red',    shape: 'triangle' },
   { cls: 't-blue',   shape: 'diamond' },
-  { cls: 't-yellow', shape: 'circle' },
+  { cls: 't-orange', shape: 'circle' },
   { cls: 't-green',  shape: 'square' },
 ];
 
