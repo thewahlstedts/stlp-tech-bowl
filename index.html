@@ -172,6 +172,21 @@
     gap: 6px;
   }
   .hud-pill.score { background: #FFA726; color: var(--brand-dark); }
+  .hud-btn {
+    background: rgba(0,0,0,0.25);
+    color: white;
+    border: none;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.1s;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .hud-btn:active { background: rgba(0,0,0,0.45); }
   .progress-bar {
     height: 8px;
     background: rgba(0,0,0,0.25);
@@ -642,6 +657,7 @@
   <!-- QUESTION SCREEN -->
   <div class="screen question-screen hidden" id="question-screen">
     <div class="hud">
+      <button class="hud-btn" id="quit-btn" aria-label="Quit quiz">Quit</button>
       <div class="hud-pill"><span id="q-counter">1 / 72</span></div>
       <div class="hud-pill score">⭐ <span id="q-score">0</span></div>
     </div>
@@ -895,6 +911,9 @@ $('#start-btn').addEventListener('click', startQuiz);
 $('#again-btn').addEventListener('click', () => { resetState(); startQuiz(); });
 $('#home-btn').addEventListener('click', goHome);
 $('#fb-next').addEventListener('click', nextQuestion);
+$('#quit-btn').addEventListener('click', () => {
+  if (confirm('Quit this quiz? Your progress will be lost.')) goHome();
+});
 
 function resetState() {
   state.index = 0;
