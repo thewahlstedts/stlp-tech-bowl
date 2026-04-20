@@ -630,8 +630,17 @@
       <button class="mode-chip active" data-mode="practice">Practice mode</button>
       <button class="mode-chip" data-mode="test">Test mode</button>
     </div>
-    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 20px; max-width: 360px; text-align:center; line-height: 1.4;">
+    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
       Practice: see the answer after each question.<br>Test: no feedback until the end.
+    </div>
+
+    <div class="mode-row" role="radiogroup" aria-label="Questions">
+      <button class="mode-chip count-chip" data-count="10">10 Qs</button>
+      <button class="mode-chip count-chip" data-count="25">25 Qs</button>
+      <button class="mode-chip count-chip active" data-count="0">All 72</button>
+    </div>
+    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
+      Pick a shorter round for quick practice, or the full bank to simulate the real thing.
     </div>
 
     <div class="mode-row" role="radiogroup" aria-label="Timer">
@@ -868,7 +877,9 @@ const state = {
   mode: 'practice',
   timerSeconds: 0,   // 0 = off, otherwise seconds per question
   shuffle: true,     // shuffle question order AND answer-option positions per session
+  questionCount: 0,  // 0 = all; otherwise the number of questions to serve this session
   queue: [],         // the questions for the current session (possibly shuffled copies)
+  queueMaxPoints: 0, // sum of point values in state.queue
   index: 0,
   score: 0,
   answers: [],      // { qIndex, chosen, correct, points, timedOut } — qIndex into state.queue
@@ -905,6 +916,7 @@ $$('.mode-chip').forEach(chip => {
     if (chip.dataset.mode) state.mode = chip.dataset.mode;
     if (chip.dataset.timer !== undefined) state.timerSeconds = parseInt(chip.dataset.timer, 10);
     if (chip.dataset.shuffle !== undefined) state.shuffle = chip.dataset.shuffle === '1';
+    if (chip.dataset.count !== undefined) state.questionCount = parseInt(chip.dataset.count, 10);
   });
 });
 $('#start-btn').addEventListener('click', startQuiz);
@@ -930,6 +942,7 @@ function goHome() {
 function startQuiz() {
   resetState();
   state.queue = buildQueue();
+  state.queueMaxPoints = state.queue.reduce((s, q) => s + q.points, 0);
   show(questionScreen);
   renderQuestion();
 }
@@ -947,15 +960,17 @@ function shuffled(arr) {
 /* Build the session's question queue. When shuffle is on, shuffle both the
    question order and each question's answer options (remapping correct). */
 function buildQueue() {
-  if (!state.shuffle) return QUESTIONS.slice();
-  return shuffled(QUESTIONS).map(q => {
-    const order = shuffled(q.options.map((_, i) => i));
-    return {
-      ...q,
-      options: order.map(i => q.options[i]),
-      correct: order.indexOf(q.correct),
-    };
-  });
+  const base = state.shuffle
+    ? shuffled(QUESTIONS).map(q => {
+        const order = shuffled(q.options.map((_, i) => i));
+        return {
+          ...q,
+          options: order.map(i => q.options[i]),
+          correct: order.indexOf(q.correct),
+        };
+      })
+    : QUESTIONS.slice();
+  return state.questionCount > 0 ? base.slice(0, state.questionCount) : base;
 }
 
 function show(screenEl) {
@@ -1175,12 +1190,12 @@ function showResults() {
   const acc = Math.round(right / state.queue.length * 100);
 
   $('#final-points').textContent = state.score;
-  $('#max-points-final').textContent = MAX_POINTS;
+  $('#max-points-final').textContent = state.queueMaxPoints;
   $('#right-count').textContent = right;
   $('#wrong-count').textContent = wrong;
   $('#accuracy').textContent = acc + '%';
 
-  const pct = state.score / MAX_POINTS;
+  const pct = state.score / state.queueMaxPoints;
   let title, grade, sub;
   if (pct >= 0.95)      { title = 'STLP Tech Bowl Champ! 🏆'; grade = 'Outstanding'; sub = 'You crushed it.'; }
   else if (pct >= 0.85) { title = 'Awesome!'; grade = 'Excellent'; sub = 'You really know your tech.'; }
