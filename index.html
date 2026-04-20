@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Tech Bowl">
-<meta name="theme-color" content="#46178F">
+<meta name="theme-color" content="#0F3D91">
 <title>STLP Tech Bowl Practice</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,9 +15,9 @@
 <style>
   :root {
     /* Kahoot-inspired palette */
-    --purple: #46178F;
-    --purple-dark: #2E0F66;
-    --purple-light: #864CBF;
+    --brand: #0F3D91;
+    --brand-dark: #061B4F;
+    --brand-light: #4773C7;
     --red: #E21B3C;
     --red-dark: #B91731;
     --blue: #1368CE;
@@ -27,10 +27,10 @@
     --green: #26890C;
     --green-dark: #1C6709;
     --white: #FFFFFF;
-    --off-white: #F4F2F7;
+    --off-white: #F2F5FA;
     --correct: #26890C;
     --wrong: #E21B3C;
-    --text-dark: #2D1B4E;
+    --text-dark: #0B1E3F;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -38,7 +38,7 @@
   html, body {
     height: 100%;
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--purple);
+    background: var(--brand);
     color: var(--white);
     overflow: hidden;
     user-select: none;
@@ -48,9 +48,9 @@
 
   body {
     background:
-      radial-gradient(ellipse at 20% 10%, rgba(134, 76, 191, 0.6) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 90%, rgba(134, 76, 191, 0.4) 0%, transparent 50%),
-      var(--purple);
+      radial-gradient(ellipse at 20% 10%, rgba(71, 115, 199, 0.55) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(71, 115, 199, 0.35) 0%, transparent 50%),
+      var(--brand);
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
@@ -117,13 +117,13 @@
   }
   .mode-chip.active {
     background: white;
-    color: var(--purple);
+    color: var(--brand);
     border-color: #FFD84D;
   }
 
   .btn-primary {
     background: #FFD84D;
-    color: var(--purple-dark);
+    color: var(--brand-dark);
     border: none;
     padding: 22px 64px;
     font-family: inherit;
@@ -171,7 +171,7 @@
     align-items: center;
     gap: 6px;
   }
-  .hud-pill.score { background: #FFD84D; color: var(--purple-dark); }
+  .hud-pill.score { background: #FFD84D; color: var(--brand-dark); }
   .progress-bar {
     height: 8px;
     background: rgba(0,0,0,0.25);
@@ -272,7 +272,7 @@
     position: absolute;
     top: 12px;
     right: 16px;
-    background: var(--purple);
+    background: var(--brand);
     color: white;
     font-size: 0.7rem;
     font-weight: 800;
@@ -462,7 +462,7 @@
   .results-sub { opacity: 0.85; margin-bottom: 20px; font-weight: 600; text-align: center; }
   .score-hero {
     background: #FFD84D;
-    color: var(--purple-dark);
+    color: var(--brand-dark);
     border-radius: 24px;
     padding: 28px 40px;
     text-align: center;
