@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tech Bowl">
+<meta name="theme-color" content="#46178F">
+<title>STLP Tech Bowl Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Kahoot-inspired palette */
+    --purple: #46178F;
+    --purple-dark: #2E0F66;
+    --purple-light: #864CBF;
+    --red: #E21B3C;
+    --red-dark: #B91731;
+    --blue: #1368CE;
+    --blue-dark: #0E4FA6;
+    --yellow: #D89E00;
+    --yellow-dark: #A67A00;
+    --green: #26890C;
+    --green-dark: #1C6709;
+    --white: #FFFFFF;
+    --off-white: #F4F2F7;
+    --correct: #26890C;
+    --wrong: #E21B3C;
+    --text-dark: #2D1B4E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    height: 100%;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--purple);
+    color: var(--white);
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    overscroll-behavior: none;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(134, 76, 191, 0.6) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(134, 76, 191, 0.4) 0%, transparent 50%),
+      var(--purple);
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  #app { height: 100%; display: flex; flex-direction: column; position: relative; }
+
+  .screen { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
+  .screen.hidden { display: none; }
+
+  /* ---------- START SCREEN ---------- */
+  .start {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 24px;
+  }
+  .start-logo {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    margin-bottom: 8px;
+    text-shadow: 0 6px 0 rgba(0,0,0,0.2);
+  }
+  .start-logo span.accent { color: #FFD84D; }
+  .start-sub {
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    opacity: 0.85;
+    margin-bottom: 40px;
+    font-weight: 600;
+  }
+  .start-stats {
+    background: rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 20px 28px;
+    margin-bottom: 32px;
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .stat { text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 900; line-height: 1; }
+  .stat-label { font-size: 0.8rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; font-weight: 600; }
+
+  .mode-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .mode-chip {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid transparent;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .mode-chip.active {
+    background: white;
+    color: var(--purple);
+    border-color: #FFD84D;
+  }
+
+  .btn-primary {
+    background: #FFD84D;
+    color: var(--purple-dark);
+    border: none;
+    padding: 22px 64px;
+    font-family: inherit;
+    font-size: 1.4rem;
+    font-weight: 900;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #C9A300, 0 8px 20px rgba(0,0,0,0.25);
+    transition: transform 0.08s, box-shadow 0.08s;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #C9A300, 0 3px 8px rgba(0,0,0,0.2); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.3);
+    padding: 14px 32px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+  .btn-secondary:active { background: rgba(255,255,255,0.25); }
+
+  /* ---------- QUESTION SCREEN ---------- */
+  .question-screen { padding: 14px 16px 16px; }
+
+  .hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .hud-pill {
+    background: rgba(0,0,0,0.25);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hud-pill.score { background: #FFD84D; color: var(--purple-dark); }
+  .progress-bar {
+    height: 8px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #FFD84D;
+    border-radius: 4px;
+    transition: width 0.4s cubic-bezier(.2,.8,.2,1);
+  }
+
+  .category-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    align-self: flex-start;
+  }
+
+  /* ---------- TIMER ---------- */
+  .timer-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .timer-wrap.hidden { display: none; }
+  .timer-bar {
+    flex: 1;
+    height: 14px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 7px;
+    overflow: hidden;
+    position: relative;
+  }
+  .timer-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #26890C 0%, #7FD13B 100%);
+    border-radius: 7px;
+    transform-origin: left center;
+    transition: background 0.3s;
+    /* width set dynamically; JS animates it */
+  }
+  .timer-fill.warn {
+    background: linear-gradient(90deg, #D89E00 0%, #FFD84D 100%);
+  }
+  .timer-fill.danger {
+    background: linear-gradient(90deg, #B91731 0%, #E21B3C 100%);
+    animation: timerPulse 0.6s ease-in-out infinite;
+  }
+  @keyframes timerPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+  .timer-num {
+    font-weight: 900;
+    font-size: 1.1rem;
+    min-width: 32px;
+    text-align: center;
+    background: rgba(0,0,0,0.3);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+  }
+  .timer-num.danger { background: var(--red); animation: timerPulse 0.6s ease-in-out infinite; }
+
+  .question-card {
+    background: white;
+    color: var(--text-dark);
+    border-radius: 18px;
+    padding: 24px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    max-height: 28vh;
+    overflow-y: auto;
+  }
+  .question-text {
+    font-size: clamp(1.05rem, 2.6vw, 1.5rem);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  .points-pill {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: var(--purple);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 2;
+  }
+  .question-card-wrap { position: relative; }
+
+  .answers-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    min-height: 0;
+  }
+  .answers-grid.two-up {
+    grid-template-rows: 1fr;
+  }
+  .answers-grid.two-up .answer-tile {
+    justify-content: center;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    gap: 18px;
+  }
+  .answers-grid.two-up .tile-shape-wrapper {
+    width: 48px;
+    height: 48px;
+  }
+  .answers-grid.two-up .tile-text {
+    flex: 0 0 auto;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .answer-tile {
+    border: none;
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+    font-weight: 700;
+    color: white;
+    padding: 14px 16px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    transition: transform 0.1s, opacity 0.25s;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.25), 0 4px 14px rgba(0,0,0,0.15);
+    overflow: hidden;
+    min-height: 0;
+  }
+  .answer-tile:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 3px 0 rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.15); }
+  .answer-tile:disabled { cursor: default; }
+  .answer-tile.dim { opacity: 0.35; }
+  .answer-tile.flash-correct { animation: flashCorrect 0.5s ease-out; }
+  .answer-tile.flash-wrong { animation: flashWrong 0.5s ease-out; }
+
+  @keyframes flashCorrect {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); box-shadow: 0 0 0 6px rgba(255,255,255,0.8), 0 6px 0 rgba(0,0,0,0.25); }
+  }
+  @keyframes flashWrong {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .tile-shape-wrapper {
+    background: rgba(0,0,0,0.25);
+    border-radius: 8px;
+    padding: 6px;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tile-shape { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .tile-shape svg { width: 100%; height: 100%; fill: white; }
+  .tile-text { flex: 1; line-height: 1.25; }
+
+  .t-red { background: var(--red); }
+  .t-red:active:not(:disabled) { background: var(--red-dark); }
+  .t-blue { background: var(--blue); }
+  .t-blue:active:not(:disabled) { background: var(--blue-dark); }
+  .t-yellow { background: var(--yellow); }
+  .t-yellow:active:not(:disabled) { background: var(--yellow-dark); }
+  .t-green { background: var(--green); }
+  .t-green:active:not(:disabled) { background: var(--green-dark); }
+
+  /* ---------- FEEDBACK OVERLAY ---------- */
+  .feedback {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+    animation: fadeIn 0.3s;
+  }
+  .feedback.correct { background: var(--correct); }
+  .feedback.wrong { background: var(--wrong); }
+  .feedback.hidden { display: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .feedback-icon {
+    font-size: clamp(4rem, 15vw, 7rem);
+    font-weight: 900;
+    margin-bottom: 8px;
+    animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
+    line-height: 1;
+  }
+  @keyframes popIn {
+    from { transform: scale(0); }
+    60% { transform: scale(1.15); }
+    to { transform: scale(1); }
+  }
+  .feedback-title {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 900;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .feedback-detail {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 600;
+    text-align: center;
+    max-width: 500px;
+    margin-bottom: 8px;
+    opacity: 0.95;
+  }
+  .feedback-correct-answer {
+    background: rgba(255,255,255,0.2);
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    font-size: clamp(0.95rem, 2.3vw, 1.15rem);
+    text-align: center;
+    max-width: 500px;
+  }
+  .feedback-correct-answer.hidden { display: none; }
+  .feedback-points {
+    font-size: 1.4rem;
+    font-weight: 900;
+    background: rgba(255,255,255,0.25);
+    padding: 8px 20px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+  }
+  .feedback .btn-primary {
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 6px 0 rgba(0,0,0,0.25), 0 8px 20px rgba(0,0,0,0.2);
+  }
+  .feedback .btn-primary:active { box-shadow: 0 2px 0 rgba(0,0,0,0.25); }
+
+  /* ---------- RESULTS SCREEN ---------- */
+  .results {
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+    padding: 24px 18px 40px;
+  }
+  .results-title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 900;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .results-sub { opacity: 0.85; margin-bottom: 20px; font-weight: 600; text-align: center; }
+  .score-hero {
+    background: #FFD84D;
+    color: var(--purple-dark);
+    border-radius: 24px;
+    padding: 28px 40px;
+    text-align: center;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    min-width: 260px;
+  }
+  .score-big {
+    font-size: clamp(3rem, 10vw, 5rem);
+    font-weight: 900;
+    line-height: 1;
+  }
+  .score-slash { opacity: 0.5; }
+  .score-caption {
+    margin-top: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 14px 20px;
+    text-align: center;
+    min-width: 110px;
+  }
+  .stat-card-num { font-size: 1.8rem; font-weight: 900; line-height: 1; }
+  .stat-card-label { font-size: 0.72rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; font-weight: 700; }
+
+  .category-breakdown {
+    width: 100%;
+    max-width: 560px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+  .category-breakdown h3 {
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    opacity: 0.85;
+  }
+  .cat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .cat-row:last-child { margin-bottom: 0; }
+  .cat-name { flex: 1; }
+  .cat-score {
+    font-weight: 800;
+    min-width: 42px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .cat-bar {
+    width: 80px;
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .cat-bar-fill { height: 100%; background: #FFD84D; }
+
+  .review-section {
+    width: 100%;
+    max-width: 560px;
+    margin-bottom: 24px;
+  }
+  .review-section.hidden { display: none; }
+  .review-section h3 {
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    opacity: 0.85;
+  }
+  .miss-card {
+    background: rgba(226, 27, 60, 0.25);
+    border-left: 4px solid var(--red);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+  .miss-q { font-weight: 700; margin-bottom: 4px; }
+  .miss-a { opacity: 0.9; }
+  .miss-a b { color: #FFD84D; }
+
+  .results-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  /* Landscape-specific tweaks for iPad */
+  @media (orientation: landscape) and (max-height: 600px) {
+    .question-card { padding: 16px 20px; min-height: 80px; max-height: 25vh; }
+    .answers-grid { gap: 8px; }
+    .answer-tile { padding: 10px 14px; }
+    .hud { margin-bottom: 8px; }
+    .progress-bar { margin-bottom: 10px; }
+  }
+
+  /* Very small phones */
+  @media (max-width: 380px) {
+    .answers-grid { gap: 8px; }
+    .answer-tile { padding: 12px 12px; font-size: 0.9rem; }
+    .tile-shape-wrapper { width: 30px; height: 30px; padding: 4px; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- START SCREEN -->
+  <div class="screen start" id="start-screen">
+    <div class="start-logo">STLP<br><span class="accent">Tech Bowl</span></div>
+    <div class="start-sub">Practice quiz · 5th grade</div>
+
+    <div class="start-stats">
+      <div class="stat">
+        <div class="stat-num">72</div>
+        <div class="stat-label">Questions</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">17</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="max-points">—</div>
+        <div class="stat-label">Max points</div>
+      </div>
+    </div>
+
+    <div class="mode-row" role="radiogroup" aria-label="Mode">
+      <button class="mode-chip active" data-mode="practice">Practice mode</button>
+      <button class="mode-chip" data-mode="test">Test mode</button>
+    </div>
+    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 20px; max-width: 360px; text-align:center; line-height: 1.4;">
+      Practice: see the answer after each question.<br>Test: no feedback until the end.
+    </div>
+
+    <div class="mode-row" role="radiogroup" aria-label="Timer">
+      <button class="mode-chip timer-chip active" data-timer="0">⏱ No timer</button>
+      <button class="mode-chip timer-chip" data-timer="20">⏱ 20 sec</button>
+      <button class="mode-chip timer-chip" data-timer="10">⚡ 10 sec</button>
+    </div>
+    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
+      Timer: answer before time runs out or it counts as wrong.
+    </div>
+
+    <div class="mode-row" role="radiogroup" aria-label="Order">
+      <button class="mode-chip shuffle-chip active" data-shuffle="1">🔀 Shuffled</button>
+      <button class="mode-chip shuffle-chip" data-shuffle="0">📋 Original order</button>
+    </div>
+    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 28px; max-width: 360px; text-align:center; line-height: 1.4;">
+      Shuffled: questions and answer choices change each round so you can't memorize positions.
+    </div>
+
+    <button class="btn-primary" id="start-btn">Start</button>
+  </div>
+
+  <!-- QUESTION SCREEN -->
+  <div class="screen question-screen hidden" id="question-screen">
+    <div class="hud">
+      <div class="hud-pill"><span id="q-counter">1 / 72</span></div>
+      <div class="hud-pill score">⭐ <span id="q-score">0</span></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div class="timer-wrap hidden" id="timer-wrap">
+      <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
+      <div class="timer-num" id="timer-num">20</div>
+    </div>
+
+    <div class="category-badge" id="q-category">Category</div>
+
+    <div class="question-card-wrap">
+      <div class="points-pill" id="q-points">1 pt</div>
+      <div class="question-card">
+        <div class="question-text" id="q-text">Question goes here</div>
+      </div>
+    </div>
+
+    <div class="answers-grid" id="answers-grid"></div>
+  </div>
+
+  <!-- FEEDBACK OVERLAY -->
+  <div class="feedback hidden" id="feedback">
+    <div class="feedback-icon" id="fb-icon">✓</div>
+    <div class="feedback-title" id="fb-title">Correct!</div>
+    <div class="feedback-detail" id="fb-detail"></div>
+    <div class="feedback-correct-answer hidden" id="fb-correct">The answer was: —</div>
+    <div class="feedback-points" id="fb-points">+1 point</div>
+    <button class="btn-primary" id="fb-next">Next</button>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div class="screen results hidden" id="results-screen">
+    <div class="results-title" id="results-title">Nice work!</div>
+    <div class="results-sub" id="results-sub">Here's how you did</div>
+
+    <div class="score-hero">
+      <div class="score-big"><span id="final-points">0</span><span class="score-slash"> / </span><span id="max-points-final">0</span></div>
+      <div class="score-caption" id="grade-label">Keep practicing</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-card-num" id="right-count">0</div>
+        <div class="stat-card-label">Correct</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num" id="wrong-count">0</div>
+        <div class="stat-card-label">Missed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num" id="accuracy">0%</div>
+        <div class="stat-card-label">Accuracy</div>
+      </div>
+    </div>
+
+    <div class="category-breakdown">
+      <h3>By category</h3>
+      <div id="cat-list"></div>
+    </div>
+
+    <div class="review-section hidden" id="review-section">
+      <h3>Questions to review</h3>
+      <div id="miss-list"></div>
+    </div>
+
+    <div class="results-actions">
+      <button class="btn-primary" id="again-btn">Play Again</button>
+      <button class="btn-secondary" id="home-btn">Home</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   QUESTION BANK - 72 questions, 16 categories
+   ============================================================ */
+const QUESTIONS = [
+  // Computer Basics
+  { text: "What does CPU stand for?", options: ["Central Processing Unit", "Computer Power Unit", "Central Program Utility", "Core Performance Unit"], correct: 0, category: "Computer Basics", points: 1 },
+  { text: "What is the \"brain\" of the computer called?", options: ["The CPU", "The RAM", "The monitor", "The hard drive"], correct: 0, category: "Computer Basics", points: 1 },
+  { text: "What do we call the physical parts of a computer that you can touch?", options: ["Hardware", "Software", "Firmware", "Netware"], correct: 0, category: "Computer Basics", points: 1 },
+  { text: "What do we call the programs and apps that run on a computer?", options: ["Software", "Hardware", "Firmware", "Freeware"], correct: 0, category: "Computer Basics", points: 1 },
+  { text: "What does RAM stand for?", options: ["Random Access Memory", "Read-Only Memory", "Rapid Action Module", "Remote Access Memory"], correct: 0, category: "Computer Basics", points: 1 },
+
+  // Internet & Online Safety
+  { text: "What does URL stand for?", options: ["Uniform Resource Locator", "Universal Reading Link", "Unified Routing Label", "User Request Line"], correct: 0, category: "Internet & Safety", points: 2 },
+  { text: "What does \"www\" stand for in a web address?", options: ["World Wide Web", "Web Wide World", "Worldwide Wire", "Wired Web Work"], correct: 0, category: "Internet & Safety", points: 1 },
+  { text: "True or False: You should share your password with your best friend.", options: ["True", "False"], correct: 1, category: "Internet & Safety", points: 1 },
+  { text: "Which is a strong password?", options: ["Your first name", "Your birthday", "A long mix of letters, numbers, and symbols", "The word \"password\""], correct: 2, category: "Internet & Safety", points: 1 },
+  { text: "What does Wi-Fi let you do?", options: ["Charge your phone faster", "Connect to the internet wirelessly", "Make your computer run faster", "Store files on your device"], correct: 1, category: "Internet & Safety", points: 1 },
+
+  // Coding & Programming
+  { text: "What is a \"bug\" in computer programming?", options: ["A cool new feature", "An error or mistake in the code", "A type of memory", "A kind of computer"], correct: 1, category: "Coding", points: 2 },
+  { text: "What is an algorithm?", options: ["A set of step-by-step instructions to solve a problem", "A type of computer chip", "A programming language", "A kind of bug"], correct: 0, category: "Coding", points: 2 },
+  { text: "In Scratch, what do you call the characters or objects you program?", options: ["Sprites", "Bots", "Backgrounds", "Scripts"], correct: 0, category: "Coding", points: 2 },
+  { text: "What is a loop in programming?", options: ["A block of code that runs over and over", "A piece of broken code", "A way to save a file", "A type of password"], correct: 0, category: "Coding", points: 2 },
+  { text: "True or False: Coding is only for adults.", options: ["True", "False"], correct: 1, category: "Coding", points: 1 },
+
+  // Tech History & Companies
+  { text: "Who are the two founders who started Apple Computer in a garage?", options: ["Bill Gates and Paul Allen", "Mark Zuckerberg and Eduardo Saverin", "Steve Jobs and Steve Wozniak", "Larry Page and Sergey Brin"], correct: 2, category: "Tech History", points: 2 },
+  { text: "What is the most widely used search engine in the world?", options: ["Bing", "Yahoo", "Google", "DuckDuckGo"], correct: 2, category: "Tech History", points: 1 },
+  { text: "What does \"PC\" stand for?", options: ["Personal Computer", "Private Computer", "Portable Computer", "Processor Chip"], correct: 0, category: "Tech History", points: 1 },
+  { text: "What video game company created Mario and Zelda?", options: ["Sony", "Microsoft", "Sega", "Nintendo"], correct: 3, category: "Tech History", points: 2 },
+  { text: "What year did the first iPhone come out?", options: ["1997", "2000", "2007", "2017"], correct: 2, category: "Tech History", points: 2 },
+
+  // Digital Devices
+  { text: "What do we call a computer you can carry around and use on your lap?", options: ["A laptop", "A desktop", "A server", "A mainframe"], correct: 0, category: "Digital Devices", points: 1 },
+  { text: "What device do you use to control the pointer on a computer screen?", options: ["Keyboard", "Mouse", "Monitor", "Speaker"], correct: 1, category: "Digital Devices", points: 1 },
+  { text: "Which of these is an example of a tablet?", options: ["iPad", "MacBook", "PlayStation", "Apple Watch"], correct: 0, category: "Digital Devices", points: 2 },
+  { text: "What does a keyboard allow you to do?", options: ["Control the pointer", "Type letters, numbers, and symbols", "Display images", "Print documents"], correct: 1, category: "Digital Devices", points: 1 },
+  { text: "What part of the computer displays images and text for you to see?", options: ["Keyboard", "Mouse", "Monitor (screen)", "Router"], correct: 2, category: "Digital Devices", points: 1 },
+
+  // Tech Vocabulary
+  { text: "What does \"AI\" stand for?", options: ["Automatic Internet", "Artificial Intelligence", "Advanced Information", "Apple Interface"], correct: 1, category: "Tech Vocabulary", points: 2 },
+  { text: "What is malware?", options: ["A really fast computer", "A type of internet connection", "Harmful software that can damage a computer", "A cool new app"], correct: 2, category: "Tech Vocabulary", points: 2 },
+  { text: "What does it mean to \"download\" something?", options: ["Copy files from the internet to your device", "Send files to the internet", "Delete files from your device", "Turn off your computer"], correct: 0, category: "Tech Vocabulary", points: 2 },
+  { text: "What is \"the cloud\" in technology?", options: ["The sky above us", "A type of computer chip", "Storage on the internet where you can save files", "A kind of virus"], correct: 2, category: "Tech Vocabulary", points: 2 },
+  { text: "What does \"upload\" mean?", options: ["Copy files from the internet to your device", "Send files from your device to the internet", "Delete files", "Open files"], correct: 1, category: "Tech Vocabulary", points: 2 },
+
+  // Problem Solving & Logic
+  { text: "A robot walks 5 steps forward, turns right, then walks 3 more steps. How many total steps did it take?", options: ["7", "8", "9", "10"], correct: 1, category: "Logic", points: 2 },
+  { text: "What comes next in this binary pattern: 0, 1, 0, 1, 0, ___ ?", options: ["0", "1", "2", "10"], correct: 1, category: "Logic", points: 2 },
+  { text: "You have 3 coding tasks that each take 5 minutes. How long will all of them take?", options: ["10 minutes", "15 minutes", "20 minutes", "25 minutes"], correct: 1, category: "Logic", points: 1 },
+  { text: "Computers represent everything — text, pictures, sound — using only two digits. What are they?", options: ["0 and 1", "1 and 2", "0, 1, and 2", "A and B"], correct: 0, category: "Logic", points: 2 },
+  { text: "You want a game character to jump ONLY when the space bar is pressed. What kind of programming statement do you need?", options: ["A loop", "A variable", "An if-then (conditional) statement", "A bug"], correct: 2, category: "Logic", points: 3 },
+
+  // Social Media & Communication
+  { text: "What is the minimum age for most social media accounts like Instagram and TikTok?", options: ["10", "13", "16", "18"], correct: 1, category: "Social Media", points: 1 },
+  { text: "What is an emoji?", options: ["A small digital image or icon used to express feelings", "A type of password", "A kind of computer", "A coding language"], correct: 0, category: "Social Media", points: 1 },
+  { text: "True or False: Everything you see on the internet is true.", options: ["True", "False"], correct: 1, category: "Social Media", points: 1 },
+  { text: "What should you do if you see something online that makes you uncomfortable?", options: ["Keep it to yourself", "Share it with your friends", "Tell a trusted adult", "Keep scrolling and ignore it"], correct: 2, category: "Social Media", points: 1 },
+  { text: "What is cyberbullying?", options: ["Fixing computer bugs", "Bullying that happens online or through digital devices", "A type of video game", "A coding challenge"], correct: 1, category: "Social Media", points: 1 },
+
+  // Fun Tech Facts
+  { text: "A standard full-size US keyboard has around how many keys?", options: ["26", "50", "104", "200"], correct: 2, category: "Fun Tech Facts", points: 2 },
+  { text: "What is a QR code used for?", options: ["Making phones charge faster", "Storing information that can be scanned by a device", "A special kind of emoji", "A type of password"], correct: 1, category: "Fun Tech Facts", points: 2 },
+  { text: "What does GPS stand for?", options: ["General Phone Service", "Graphical Picture System", "Global Positioning System", "Gaming Play Software"], correct: 2, category: "Fun Tech Facts", points: 2 },
+  { text: "True or False: The first electronic computer was the size of a large room.", options: ["True", "False"], correct: 0, category: "Fun Tech Facts", points: 1 },
+  { text: "What are the three primary colors of light that screens use?", options: ["Red, Yellow, Blue", "Cyan, Magenta, Yellow", "Red, Green, Blue (RGB)", "Black, White, Gray"], correct: 2, category: "Fun Tech Facts", points: 2 },
+
+  // Digital Citizenship & Ethics
+  { text: "What is a \"digital footprint\"?", options: ["The trail of information you leave online", "A cool new app", "A kind of emoji", "A computer virus"], correct: 0, category: "Digital Citizenship", points: 2 },
+  { text: "What is copyright?", options: ["A way to copy files faster", "Legal protection for someone's creative work", "A type of password", "The right for anyone to copy anything"], correct: 1, category: "Digital Citizenship", points: 2 },
+  { text: "If you use a picture you found online in your school project, what should you always do?", options: ["Change the colors first", "Post it everywhere", "Give credit to the creator (cite the source)", "Delete the original"], correct: 2, category: "Digital Citizenship", points: 2 },
+  { text: "True or False: Once you post something online, you can always completely take it back.", options: ["True", "False"], correct: 1, category: "Digital Citizenship", points: 1 },
+
+  // Artificial Intelligence
+  { text: "What is a chatbot?", options: ["A robot that vacuums floors", "A computer program that has conversations with you using text or voice", "A new video game", "A type of printer"], correct: 1, category: "Artificial Intelligence", points: 2 },
+  { text: "Which of these is an AI voice assistant?", options: ["Instagram", "Minecraft", "Siri", "Netflix"], correct: 2, category: "Artificial Intelligence", points: 2 },
+  { text: "How does an AI program \"learn\"?", options: ["By reading a textbook once", "By studying huge amounts of examples (data)", "By watching TV", "By sleeping"], correct: 1, category: "Artificial Intelligence", points: 3 },
+
+  // Keyboard Shortcuts
+  { text: "What does the shortcut Ctrl+C do?", options: ["Cut", "Copy", "Close", "Paste"], correct: 1, category: "Keyboard Shortcuts", points: 1 },
+  { text: "What does Ctrl+V do?", options: ["Copy", "Save", "Paste", "View"], correct: 2, category: "Keyboard Shortcuts", points: 1 },
+  { text: "What does Ctrl+Z do?", options: ["Redo", "Zoom in", "Undo", "Zero out"], correct: 2, category: "Keyboard Shortcuts", points: 2 },
+
+  // File Types & Storage
+  { text: "What kind of file ends in .jpg or .png?", options: ["A video file", "A sound file", "An image (picture) file", "A text document"], correct: 2, category: "File Types", points: 2 },
+  { text: "What kind of file ends in .mp4?", options: ["An image file", "A video file", "A sound file", "A game file"], correct: 1, category: "File Types", points: 2 },
+  { text: "What kind of file ends in .mp3?", options: ["A video file", "An image file", "A sound or music file", "A document"], correct: 2, category: "File Types", points: 2 },
+
+  // Robotics & Sensors
+  { text: "What is a sensor on a robot?", options: ["Something that makes the robot move", "A part that detects things like light, distance, or touch", "The robot's storage for code", "The battery charger"], correct: 1, category: "Robotics", points: 2 },
+  { text: "What does it mean for a robot to be \"autonomous\"?", options: ["It's controlled by a remote", "It operates on its own without a person controlling it", "It's made of plastic", "It can talk"], correct: 1, category: "Robotics", points: 3 },
+  { text: "Which part of a robot makes its wheels or arms move?", options: ["A sensor", "A motor", "A wire", "A screen"], correct: 1, category: "Robotics", points: 2 },
+
+  // Networking & Connections
+  { text: "What device in your home broadcasts the Wi-Fi signal so your devices can connect?", options: ["Printer", "Router", "Monitor", "Keyboard"], correct: 1, category: "Networking", points: 2 },
+  { text: "What is Bluetooth used for?", options: ["Connecting devices wirelessly over short distances", "Making the internet faster", "Cleaning your screen", "A type of password"], correct: 0, category: "Networking", points: 2 },
+
+  // Creative Digital Arts
+  { text: "What is a podcast?", options: ["A type of video game", "A computer virus", "A digital audio show you can listen to", "A social media platform"], correct: 2, category: "Creative Digital Arts", points: 2 },
+  { text: "What is 3D printing?", options: ["Printing on really thick paper", "A type of drawing", "A machine that builds real objects layer by layer", "Watching 3D movies"], correct: 2, category: "Creative Digital Arts", points: 2 },
+  { text: "What is animation?", options: ["Writing code", "Typing quickly", "Making still pictures appear to move", "Taking photos"], correct: 2, category: "Creative Digital Arts", points: 2 },
+
+  // Bonus / Tiebreaker
+  { text: "What does HTML stand for?", options: ["High-Tech Machine Language", "HyperText Markup Language", "Home Tool Modeling Language", "HyperText Memory Link"], correct: 1, category: "Bonus", points: 3 },
+  { text: "In binary code, what number does \"10\" represent?", options: ["0", "1", "2", "10"], correct: 2, category: "Bonus", points: 3 },
+  { text: "What is a pixel?", options: ["A type of computer", "The smallest unit of a digital image", "A unit of memory", "A keyboard key"], correct: 1, category: "Bonus", points: 3 },
+  { text: "Who is often called the first computer programmer?", options: ["Steve Jobs", "Alan Turing", "Ada Lovelace", "Bill Gates"], correct: 2, category: "Bonus", points: 3 },
+  { text: "What technology lets computers understand and respond to spoken words?", options: ["Touch screens", "Voice (speech) recognition", "QR codes", "Keyboard shortcuts"], correct: 1, category: "Bonus", points: 3 },
+  { text: "Who is credited with finding the first real computer \"bug\" — an actual moth stuck inside a machine?", options: ["Ada Lovelace", "Steve Jobs", "Grace Hopper", "Bill Gates"], correct: 2, category: "Bonus", points: 5 },
+];
+
+/* ============================================================
+   SVG shapes for answer tiles (Kahoot-style)
+   ============================================================ */
+const SHAPES = {
+  triangle: '<svg viewBox="0 0 24 24"><polygon points="12,3 22,20 2,20"/></svg>',
+  diamond:  '<svg viewBox="0 0 24 24"><polygon points="12,2 22,12 12,22 2,12"/></svg>',
+  circle:   '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>',
+  square:   '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>',
+};
+const TILE_STYLES = [
+  { cls: 't-red',    shape: 'triangle' },
+  { cls: 't-blue',   shape: 'diamond' },
+  { cls: 't-yellow', shape: 'circle' },
+  { cls: 't-green',  shape: 'square' },
+];
+
+/* ============================================================
+   State
+   ============================================================ */
+const state = {
+  mode: 'practice',
+  timerSeconds: 0,   // 0 = off, otherwise seconds per question
+  shuffle: true,     // shuffle question order AND answer-option positions per session
+  queue: [],         // the questions for the current session (possibly shuffled copies)
+  index: 0,
+  score: 0,
+  answers: [],      // { qIndex, chosen, correct, points, timedOut } — qIndex into state.queue
+};
+
+// Timer runtime state (not reset on goHome since it's always reset in startQuiz)
+let timerInterval = null;
+let timerDeadline = 0;    // timestamp in ms when time is up
+let timerActive = false;
+
+const MAX_POINTS = QUESTIONS.reduce((s, q) => s + q.points, 0);
+
+/* ============================================================
+   DOM helpers
+   ============================================================ */
+const $ = sel => document.querySelector(sel);
+const $$ = sel => document.querySelectorAll(sel);
+const startScreen = $('#start-screen');
+const questionScreen = $('#question-screen');
+const resultsScreen = $('#results-screen');
+const feedback = $('#feedback');
+
+$('#max-points').textContent = MAX_POINTS;
+
+/* ============================================================
+   Wiring
+   ============================================================ */
+$$('.mode-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    // Only deselect chips in the same mode-row (same radiogroup)
+    const siblings = chip.parentElement.querySelectorAll('.mode-chip');
+    siblings.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    if (chip.dataset.mode) state.mode = chip.dataset.mode;
+    if (chip.dataset.timer !== undefined) state.timerSeconds = parseInt(chip.dataset.timer, 10);
+    if (chip.dataset.shuffle !== undefined) state.shuffle = chip.dataset.shuffle === '1';
+  });
+});
+$('#start-btn').addEventListener('click', startQuiz);
+$('#again-btn').addEventListener('click', () => { resetState(); startQuiz(); });
+$('#home-btn').addEventListener('click', goHome);
+$('#fb-next').addEventListener('click', nextQuestion);
+
+function resetState() {
+  state.index = 0;
+  state.score = 0;
+  state.answers = [];
+}
+
+function goHome() {
+  stopTimer();
+  resetState();
+  show(startScreen);
+}
+
+function startQuiz() {
+  resetState();
+  state.queue = buildQueue();
+  show(questionScreen);
+  renderQuestion();
+}
+
+/* Fisher-Yates shuffle (returns a new array) */
+function shuffled(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* Build the session's question queue. When shuffle is on, shuffle both the
+   question order and each question's answer options (remapping correct). */
+function buildQueue() {
+  if (!state.shuffle) return QUESTIONS.slice();
+  return shuffled(QUESTIONS).map(q => {
+    const order = shuffled(q.options.map((_, i) => i));
+    return {
+      ...q,
+      options: order.map(i => q.options[i]),
+      correct: order.indexOf(q.correct),
+    };
+  });
+}
+
+function show(screenEl) {
+  [startScreen, questionScreen, resultsScreen].forEach(s => s.classList.add('hidden'));
+  screenEl.classList.remove('hidden');
+  hideFeedback();
+}
+
+/* ============================================================
+   Render a question
+   ============================================================ */
+function renderQuestion() {
+  const q = state.queue[state.index];
+
+  $('#q-counter').textContent = `${state.index + 1} / ${state.queue.length}`;
+  $('#q-score').textContent = state.score;
+  $('#progress-fill').style.width = (state.index / state.queue.length * 100) + '%';
+  $('#q-category').textContent = q.category;
+  $('#q-text').textContent = q.text;
+  $('#q-points').textContent = q.points + (q.points === 1 ? ' pt' : ' pts');
+
+  const grid = $('#answers-grid');
+  grid.innerHTML = '';
+  grid.classList.toggle('two-up', q.options.length === 2);
+
+  q.options.forEach((opt, i) => {
+    const style = TILE_STYLES[i];
+    const btn = document.createElement('button');
+    btn.className = `answer-tile ${style.cls}`;
+    btn.innerHTML = `
+      <span class="tile-shape-wrapper"><span class="tile-shape">${SHAPES[style.shape]}</span></span>
+      <span class="tile-text">${escapeHtml(opt)}</span>
+    `;
+    btn.addEventListener('click', () => handleAnswer(i, btn));
+    grid.appendChild(btn);
+  });
+
+  startTimer();
+}
+
+/* ============================================================
+   Timer
+   ============================================================ */
+function startTimer() {
+  stopTimer();
+  const wrap = $('#timer-wrap');
+  const fill = $('#timer-fill');
+  const num  = $('#timer-num');
+  if (!state.timerSeconds) {
+    wrap.classList.add('hidden');
+    return;
+  }
+  wrap.classList.remove('hidden');
+  fill.classList.remove('warn', 'danger');
+  num.classList.remove('danger');
+  fill.style.width = '100%';
+  num.textContent = state.timerSeconds;
+
+  const totalMs = state.timerSeconds * 1000;
+  timerDeadline = Date.now() + totalMs;
+  timerActive = true;
+
+  timerInterval = setInterval(() => {
+    const remaining = Math.max(0, timerDeadline - Date.now());
+    const pct = (remaining / totalMs) * 100;
+    fill.style.width = pct + '%';
+    const secs = Math.ceil(remaining / 1000);
+    num.textContent = secs;
+
+    if (secs <= 3) {
+      fill.classList.remove('warn');
+      fill.classList.add('danger');
+      num.classList.add('danger');
+    } else if (secs <= 5) {
+      fill.classList.add('warn');
+      fill.classList.remove('danger');
+      num.classList.remove('danger');
+    }
+
+    if (remaining <= 0) {
+      stopTimer();
+      handleTimeout();
+    }
+  }, 80);
+}
+
+function stopTimer() {
+  timerActive = false;
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+
+function handleTimeout() {
+  const q = state.queue[state.index];
+  state.answers.push({
+    qIndex: state.index,
+    chosen: -1,       // -1 = no answer
+    correct: false,
+    points: 0,
+    timedOut: true,
+  });
+
+  const tiles = $$('#answers-grid .answer-tile');
+  tiles.forEach((t, i) => {
+    t.disabled = true;
+    if (i === q.correct) t.classList.add('flash-correct');
+    else t.classList.add('dim');
+  });
+
+  if (state.mode === 'practice') {
+    setTimeout(() => showFeedback(false, q, -1, true), 650);
+  } else {
+    setTimeout(nextQuestion, 500);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ============================================================
+   Answering
+   ============================================================ */
+function handleAnswer(chosenIdx) {
+  if (!timerActiveOrNoTimer()) return;  // ignore late taps after timeout
+  stopTimer();
+
+  const q = state.queue[state.index];
+  const correct = chosenIdx === q.correct;
+  const earned = correct ? q.points : 0;
+  if (correct) state.score += earned;
+
+  state.answers.push({
+    qIndex: state.index,
+    chosen: chosenIdx,
+    correct,
+    points: earned,
+    timedOut: false,
+  });
+
+  const tiles = $$('#answers-grid .answer-tile');
+  tiles.forEach(t => t.disabled = true);
+
+  if (state.mode === 'practice') {
+    tiles.forEach((t, i) => {
+      if (i === q.correct) t.classList.add('flash-correct');
+      else t.classList.add('dim');
+      if (i === chosenIdx && !correct) t.classList.add('flash-wrong');
+    });
+    setTimeout(() => showFeedback(correct, q, chosenIdx), 650);
+  } else {
+    // Test mode - just move on
+    tiles.forEach((t, i) => { if (i === chosenIdx) t.style.opacity = '0.6'; });
+    setTimeout(nextQuestion, 300);
+  }
+}
+
+function timerActiveOrNoTimer() {
+  // If timer is off, answers are always valid. Otherwise only valid while timer runs.
+  return !state.timerSeconds || timerActive;
+}
+
+function showFeedback(correct, q, chosenIdx, timedOut = false) {
+  feedback.classList.remove('hidden');
+  feedback.classList.toggle('correct', correct);
+  feedback.classList.toggle('wrong', !correct);
+
+  $('#fb-icon').textContent = correct ? '✓' : (timedOut ? '⏱' : '✗');
+  $('#fb-title').textContent = correct ? 'Correct!' : (timedOut ? "Time's up!" : 'Not quite');
+  $('#fb-detail').textContent = correct
+    ? ['Nice!', 'Got it!', 'You nailed it!', 'On fire!', 'Locked in!'][Math.floor(Math.random()*5)]
+    : timedOut
+      ? 'Try to go a bit faster next time.'
+      : `You picked: ${q.options[chosenIdx]}`;
+
+  const corrEl = $('#fb-correct');
+  if (correct) {
+    corrEl.classList.add('hidden');
+  } else {
+    corrEl.classList.remove('hidden');
+    corrEl.innerHTML = `Correct answer: <b>${escapeHtml(q.options[q.correct])}</b>`;
+  }
+
+  const ptsEl = $('#fb-points');
+  if (correct) {
+    ptsEl.textContent = `+${q.points} point${q.points > 1 ? 's' : ''}`;
+    ptsEl.style.display = '';
+  } else {
+    ptsEl.style.display = 'none';
+  }
+
+  $('#fb-next').textContent = state.index + 1 >= state.queue.length ? 'See Results' : 'Next';
+}
+
+function hideFeedback() {
+  feedback.classList.add('hidden');
+}
+
+function nextQuestion() {
+  hideFeedback();
+  state.index++;
+  if (state.index >= state.queue.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ============================================================
+   Results
+   ============================================================ */
+function showResults() {
+  stopTimer();
+  show(resultsScreen);
+
+  const right = state.answers.filter(a => a.correct).length;
+  const wrong = state.answers.length - right;
+  const acc = Math.round(right / state.queue.length * 100);
+
+  $('#final-points').textContent = state.score;
+  $('#max-points-final').textContent = MAX_POINTS;
+  $('#right-count').textContent = right;
+  $('#wrong-count').textContent = wrong;
+  $('#accuracy').textContent = acc + '%';
+
+  const pct = state.score / MAX_POINTS;
+  let title, grade, sub;
+  if (pct >= 0.95)      { title = 'STLP Tech Bowl Champ! 🏆'; grade = 'Outstanding'; sub = 'You crushed it.'; }
+  else if (pct >= 0.85) { title = 'Awesome!'; grade = 'Excellent'; sub = 'You really know your tech.'; }
+  else if (pct >= 0.70) { title = 'Great job!'; grade = 'Strong'; sub = "You're ready — keep reviewing the misses."; }
+  else if (pct >= 0.50) { title = 'Good effort!'; grade = 'Getting there'; sub = 'Keep practicing the categories you missed.'; }
+  else                  { title = 'Keep at it!'; grade = 'Keep practicing'; sub = 'Review the misses below and try again.'; }
+
+  $('#results-title').textContent = title;
+  $('#results-sub').textContent = sub;
+  $('#grade-label').textContent = grade;
+
+  // Category breakdown
+  const catStats = {};
+  state.answers.forEach(a => {
+    const q = state.queue[a.qIndex];
+    if (!catStats[q.category]) catStats[q.category] = { correct: 0, total: 0, points: 0, maxPoints: 0 };
+    catStats[q.category].total++;
+    catStats[q.category].maxPoints += q.points;
+    if (a.correct) { catStats[q.category].correct++; catStats[q.category].points += q.points; }
+  });
+  const catList = $('#cat-list');
+  catList.innerHTML = '';
+  Object.entries(catStats).forEach(([cat, s]) => {
+    const row = document.createElement('div');
+    row.className = 'cat-row';
+    const fillPct = Math.round(s.points / s.maxPoints * 100);
+    row.innerHTML = `
+      <span class="cat-name">${escapeHtml(cat)}</span>
+      <span class="cat-bar"><span class="cat-bar-fill" style="width:${fillPct}%"></span></span>
+      <span class="cat-score">${s.correct}/${s.total}</span>
+    `;
+    catList.appendChild(row);
+  });
+
+  // Missed questions review
+  const missed = state.answers.filter(a => !a.correct);
+  const reviewSection = $('#review-section');
+  const missList = $('#miss-list');
+  missList.innerHTML = '';
+  if (missed.length === 0) {
+    reviewSection.classList.add('hidden');
+  } else {
+    reviewSection.classList.remove('hidden');
+    missed.forEach(a => {
+      const q = state.queue[a.qIndex];
+      const card = document.createElement('div');
+      card.className = 'miss-card';
+      const yourLine = a.timedOut
+        ? '<div class="miss-a">⏱ Ran out of time</div>'
+        : `<div class="miss-a">You picked: ${escapeHtml(q.options[a.chosen])}</div>`;
+      card.innerHTML = `
+        <div class="miss-q">${escapeHtml(q.text)}</div>
+        ${yourLine}
+        <div class="miss-a">Answer: <b>${escapeHtml(q.options[q.correct])}</b></div>
+      `;
+      missList.appendChild(card);
+    });
+  }
+}
+
+/* Prevent pinch zoom on iPad */
+document.addEventListener('touchmove', e => {
+  if (e.scale !== 1) e.preventDefault();
+}, { passive: false });
+</script>
+</body>
+</html>
