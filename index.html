@@ -76,10 +76,12 @@
 
   /* ---------- START SCREEN ---------- */
   .start {
-    justify-content: center;
+    justify-content: safe center;
     align-items: center;
     text-align: center;
     padding: 40px 24px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .start-logo {
     font-size: clamp(2.5rem, 8vw, 4.5rem);
