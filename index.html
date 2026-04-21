@@ -750,9 +750,9 @@
     </div>
 
     <div class="mode-row" role="radiogroup" aria-label="Questions">
-      <button class="mode-chip count-chip" data-count="10">10 Qs</button>
+      <button class="mode-chip count-chip active" data-count="10">10 Qs</button>
       <button class="mode-chip count-chip" data-count="25">25 Qs</button>
-      <button class="mode-chip count-chip active" data-count="0">All 233</button>
+      <button class="mode-chip count-chip" data-count="0">All 233</button>
     </div>
     <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
       Pick a shorter round for quick practice, or the full bank to simulate the real thing.
@@ -1173,7 +1173,7 @@ const state = {
   mode: 'practice',
   timerSeconds: 0,   // 0 = off, otherwise seconds per question
   shuffle: true,     // shuffle question order AND answer-option positions per session
-  questionCount: 0,  // 0 = all; otherwise the number of questions to serve this session
+  questionCount: 10, // 0 = all; otherwise the number of questions to serve this session
   queue: [],         // the questions for the current session (possibly shuffled copies)
   queueMaxPoints: 0, // sum of point values in state.queue
   index: 0,
