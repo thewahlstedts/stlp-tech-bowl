@@ -32,13 +32,6 @@ Live at: **https://thewahlstedts.github.io/stlp-tech-bowl/**
 2. Tap the share button → **Add to Home Screen**
 3. Launches full-screen like a real app (the `apple-mobile-web-app-capable` meta tag is set)
 
-## Printable practice sheets
-
-Two PDFs are in this repo for pencil-and-paper practice:
-
-- [`STLP_Tech_Bowl_Student.pdf`](STLP_Tech_Bowl_Student.pdf) — 72 questions with answer lines
-- [`STLP_Tech_Bowl_Coach_Answer_Key.pdf`](STLP_Tech_Bowl_Coach_Answer_Key.pdf) — same questions with answers, difficulty, and point values
-
 ## Editing questions
 
 All questions live in the `QUESTIONS` array inside `index.html`. Shape:
