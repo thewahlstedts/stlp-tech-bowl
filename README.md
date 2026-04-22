@@ -2,7 +2,7 @@
 
 A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition, designed for iPad.
 
-**233 questions** across 17 categories — multiple choice and true/false.
+**266 questions** across 17 categories — multiple choice and true/false.
 
 ## Play it
 
