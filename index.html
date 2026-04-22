@@ -1453,9 +1453,26 @@ const state = {
 // Timer runtime state (not reset on goHome since it's always reset in startQuiz)
 let timerInterval = null;
 let timerDeadline = 0;    // timestamp in ms when time is up
+let questionStartMs = 0;  // timestamp in ms when the current question became visible — drives Kahoot speed-bonus scoring
 let timerActive = false;
 
-const MAX_POINTS = QUESTIONS.reduce((s, q) => s + q.points, 0);
+/* Point scale: each question's base is q.points * 100 so Kahoot's speed-bonus
+   formula (50%–100% of base for correct answers) produces clean integers and
+   the easy/medium/hard/bonus tiers stay visible (100/200/300/500). */
+const POINT_SCALE = 100;
+const MAX_POINTS = QUESTIONS.reduce((s, q) => s + q.points * POINT_SCALE, 0);
+
+/* Kahoot scoring formula: correct answer earns base × (1 − response_time / timer / 2),
+   so fastest correct = full base, slowest correct (at the buzzer) = 50%,
+   wrong/timed-out = 0. With the timer off, every correct answer gets full base. */
+function computeEarnedPoints(q, elapsedMs, correct) {
+  if (!correct) return 0;
+  const base = q.points * POINT_SCALE;
+  if (!state.timerSeconds) return base;
+  const totalMs = state.timerSeconds * 1000;
+  const factor = Math.max(0.5, 1 - (elapsedMs / totalMs) / 2);
+  return Math.floor(factor * base);
+}
 
 /* ============================================================
    DOM helpers
@@ -1468,7 +1485,7 @@ const resultsScreen = $('#results-screen');
 const historyScreen = $('#history-screen');
 const feedback = $('#feedback');
 
-$('#max-points').textContent = MAX_POINTS;
+$('#max-points').textContent = MAX_POINTS.toLocaleString();
 
 /* Populate the category dropdown with "All" + every category, each showing its count. */
 /* Group categories under the STLP Tech Bowl rubric's four scope areas
@@ -1553,7 +1570,7 @@ function goHome() {
 function startQuiz() {
   resetState();
   state.queue = buildQueue();
-  state.queueMaxPoints = state.queue.reduce((s, q) => s + q.points, 0);
+  state.queueMaxPoints = state.queue.reduce((s, q) => s + q.points * POINT_SCALE, 0);
   show(questionScreen);
   renderQuestion();
 }
@@ -1655,11 +1672,11 @@ function renderQuestion() {
   const q = state.queue[state.index];
 
   $('#q-counter').textContent = `${state.index + 1} / ${state.queue.length}`;
-  $('#q-score').textContent = state.score;
+  $('#q-score').textContent = state.score.toLocaleString();
   $('#progress-fill').style.width = (state.index / state.queue.length * 100) + '%';
   $('#q-category').textContent = q.category;
   $('#q-text').textContent = q.text;
-  $('#q-points').textContent = q.points + (q.points === 1 ? ' pt' : ' pts');
+  $('#q-points').textContent = (q.points * POINT_SCALE).toLocaleString() + ' pts';
 
   const grid = $('#answers-grid');
   grid.innerHTML = '';
@@ -1678,6 +1695,7 @@ function renderQuestion() {
   });
 
   startTimer();
+  questionStartMs = Date.now();  // drives speed-bonus scoring
 }
 
 /* ============================================================
@@ -1738,6 +1756,7 @@ function handleTimeout() {
     chosen: -1,       // -1 = no answer
     correct: false,
     points: 0,
+    elapsedMs: state.timerSeconds * 1000,
     timedOut: true,
   });
 
@@ -1749,7 +1768,7 @@ function handleTimeout() {
   });
 
   if (state.mode === 'practice') {
-    setTimeout(() => showFeedback(false, q, -1, true), 650);
+    setTimeout(() => showFeedback(false, q, -1, true, 0), 650);
   } else {
     setTimeout(nextQuestion, 500);
   }
@@ -1764,18 +1783,20 @@ function escapeHtml(s) {
    ============================================================ */
 function handleAnswer(chosenIdx) {
   if (!timerActiveOrNoTimer()) return;  // ignore late taps after timeout
+  const elapsedMs = Date.now() - questionStartMs;
   stopTimer();
 
   const q = state.queue[state.index];
   const correct = chosenIdx === q.correct;
-  const earned = correct ? q.points : 0;
-  if (correct) state.score += earned;
+  const earned = computeEarnedPoints(q, elapsedMs, correct);
+  state.score += earned;
 
   state.answers.push({
     qIndex: state.index,
     chosen: chosenIdx,
     correct,
     points: earned,
+    elapsedMs,
     timedOut: false,
   });
 
@@ -1788,7 +1809,7 @@ function handleAnswer(chosenIdx) {
       else t.classList.add('dim');
       if (i === chosenIdx && !correct) t.classList.add('flash-wrong');
     });
-    setTimeout(() => showFeedback(correct, q, chosenIdx), 650);
+    setTimeout(() => showFeedback(correct, q, chosenIdx, false, earned), 650);
   } else {
     // Test mode - just move on
     tiles.forEach((t, i) => { if (i === chosenIdx) t.style.opacity = '0.6'; });
@@ -1801,7 +1822,7 @@ function timerActiveOrNoTimer() {
   return !state.timerSeconds || timerActive;
 }
 
-function showFeedback(correct, q, chosenIdx, timedOut = false) {
+function showFeedback(correct, q, chosenIdx, timedOut = false, earned = 0) {
   feedback.classList.remove('hidden');
   feedback.classList.toggle('correct', correct);
   feedback.classList.toggle('wrong', !correct);
@@ -1824,7 +1845,7 @@ function showFeedback(correct, q, chosenIdx, timedOut = false) {
 
   const ptsEl = $('#fb-points');
   if (correct) {
-    ptsEl.textContent = `+${q.points} point${q.points > 1 ? 's' : ''}`;
+    ptsEl.textContent = `+${earned.toLocaleString()} pts`;
     ptsEl.style.display = '';
   } else {
     ptsEl.style.display = 'none';
@@ -1885,8 +1906,8 @@ function showResults() {
     missed: missedForHistory,
   });
 
-  $('#final-points').textContent = state.score;
-  $('#max-points-final').textContent = state.queueMaxPoints;
+  $('#final-points').textContent = state.score.toLocaleString();
+  $('#max-points-final').textContent = state.queueMaxPoints.toLocaleString();
   $('#right-count').textContent = right;
   $('#wrong-count').textContent = wrong;
   $('#accuracy').textContent = acc + '%';
@@ -1909,8 +1930,8 @@ function showResults() {
     const q = state.queue[a.qIndex];
     if (!catStats[q.category]) catStats[q.category] = { correct: 0, total: 0, points: 0, maxPoints: 0 };
     catStats[q.category].total++;
-    catStats[q.category].maxPoints += q.points;
-    if (a.correct) { catStats[q.category].correct++; catStats[q.category].points += q.points; }
+    catStats[q.category].maxPoints += q.points * POINT_SCALE;
+    if (a.correct) { catStats[q.category].correct++; catStats[q.category].points += a.points; }
   });
   const catList = $('#cat-list');
   catList.innerHTML = '';
@@ -2008,7 +2029,7 @@ function renderHistory() {
           <div class="history-row-meta">${modeStr} · ${e.count} Qs${timerStr}</div>
         </div>
         <div class="history-row-right">
-          <div class="history-row-score ${pctClass}">${e.accuracy}% · ${e.score}/${e.maxPoints}</div>
+          <div class="history-row-score ${pctClass}">${e.accuracy}% · ${Number(e.score).toLocaleString()}/${Number(e.maxPoints).toLocaleString()}</div>
           <div class="history-row-chevron" aria-hidden="true">▶</div>
         </div>
       </div>
