@@ -437,15 +437,15 @@
     border: none;
     border-radius: 14px;
     font-family: inherit;
-    font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+    font-size: clamp(0.88rem, 2.2vw, 1.25rem);
     font-weight: 700;
     color: white;
-    padding: 14px 16px;
+    padding: 12px 12px;
     cursor: pointer;
     position: relative;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
     text-align: left;
     transition: transform 0.1s, opacity 0.25s;
     box-shadow: 0 6px 0 rgba(0,0,0,0.25), 0 4px 14px rgba(0,0,0,0.15);
@@ -473,9 +473,9 @@
   .tile-shape-wrapper {
     background: rgba(0,0,0,0.25);
     border-radius: 8px;
-    padding: 6px;
-    width: 36px;
-    height: 36px;
+    padding: 5px;
+    width: 28px;
+    height: 28px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -483,7 +483,14 @@
   }
   .tile-shape { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
   .tile-shape svg { width: 100%; height: 100%; fill: white; }
-  .tile-text { flex: 1; line-height: 1.25; }
+  .tile-text {
+    flex: 1;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    min-width: 0;
+  }
 
   .t-red { background: var(--red); }
   .t-red:active:not(:disabled) { background: var(--red-dark); }
@@ -844,11 +851,16 @@
     .progress-bar { margin-bottom: 10px; }
   }
 
-  /* Very small phones */
-  @media (max-width: 380px) {
+  /* Phones (portrait iPhone 12/13/14/15 and smaller) */
+  @media (max-width: 430px) {
     .answers-grid { gap: 8px; }
-    .answer-tile { padding: 12px 12px; font-size: 0.9rem; }
-    .tile-shape-wrapper { width: 30px; height: 30px; padding: 4px; }
+    .answer-tile { padding: 10px 10px; gap: 8px; font-size: 0.88rem; }
+    .tile-shape-wrapper { width: 24px; height: 24px; padding: 4px; border-radius: 6px; }
+  }
+  /* Very small phones (iPhone SE / mini) */
+  @media (max-width: 375px) {
+    .answer-tile { padding: 9px 9px; gap: 6px; font-size: 0.83rem; }
+    .tile-shape-wrapper { width: 22px; height: 22px; padding: 3px; }
   }
 </style>
 </head>
