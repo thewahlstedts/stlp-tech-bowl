@@ -55,9 +55,30 @@ All questions live in the `QUESTIONS` array inside `index.html` (410 entries). S
 
 No build step. Edit, save, push.
 
+## STLP Tech Bowl — what the real event looks like
+
+Per the official Kentucky Department of Education STLP Tech Bowl rubric:
+
+- **Format**: Live Kahoot! quiz at the STLP State Championship. Individual event, 2 students per school.
+- **Divisions** (K–12):
+  - Elementary — Grades K–5
+  - Middle — Grades 6–8
+  - High — Grades 9–12
+- **Scope**: "knowledge of all things technology — from devices and digital citizenship to innovation and internet safety." Those four areas (Devices, Digital Citizenship, Innovation, Internet Safety) are the rubric's scope buckets.
+- **Session length**: ~30 general technology questions per round. This app defaults to 30.
+- **Per-question timer**: up to 25 seconds (or until everyone has answered). This app defaults to 25 sec.
+- **Scoring**: Kahoot rewards faster correct answers with more points. This app currently gives flat per-question points (1/2/3/5); a speed-bonus mode is a known future option.
+- **Rubric anchor**: the [Kentucky Academic Standards for Technology](https://www.education.ky.gov/curriculum/standards/kyacadstand/Documents/KAS_Technology.pdf).
+
 ## Categories (16)
 
-Computer Basics · Internet & Safety · Coding · Tech History · Digital Devices · Tech Vocabulary · Social Media · Fun Tech Facts · Digital Citizenship · Artificial Intelligence · Keyboard Shortcuts · File Types · Robotics · Networking · Creative Digital Arts · Bonus
+The app keeps 16 granular categories so students can drill specific areas, but the category picker groups them under the rubric's four scope areas (plus Bonus) using HTML `<optgroup>`:
+
+- **Devices** — Computer Basics · Digital Devices · Keyboard Shortcuts · File Types · Tech Vocabulary
+- **Digital Citizenship** — Digital Citizenship · Social Media
+- **Innovation** — Coding · Artificial Intelligence · Robotics · Tech History · Fun Tech Facts · Creative Digital Arts
+- **Internet Safety** — Internet & Safety · Networking
+- **Bonus** — Bonus
 
 ## Deploying your own copy
 
