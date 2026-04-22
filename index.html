@@ -710,16 +710,29 @@
   .history-row {
     background: rgba(0,0,0,0.2);
     border-radius: 12px;
-    padding: 12px 14px;
     margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .history-row-header {
+    padding: 12px 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
+  .history-row-header:active { background: rgba(255,255,255,0.05); }
   .history-row-main { flex: 1; min-width: 0; }
   .history-row-date { font-size: 0.78rem; opacity: 0.75; margin-bottom: 2px; }
   .history-row-meta { font-weight: 600; font-size: 0.88rem; }
+  .history-row-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+  }
   .history-row-score {
     font-weight: 900;
     font-size: 1rem;
@@ -728,6 +741,42 @@
   .history-row-score.pct-good { color: #7FD13B; }
   .history-row-score.pct-ok { color: #FFA726; }
   .history-row-score.pct-low { color: #E21B3C; }
+  .history-row-chevron {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    font-size: 0.9rem;
+    font-weight: 900;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .history-row.expanded .history-row-chevron {
+    transform: rotate(90deg);
+    color: var(--orange);
+  }
+  .history-row-details {
+    display: none;
+    padding: 4px 14px 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .history-row.expanded .history-row-details { display: block; }
+  .history-row-details-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+    margin: 10px 0 8px;
+  }
+  .history-row-empty-note {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    padding: 6px 2px;
+    font-style: italic;
+  }
   .history-empty {
     text-align: center;
     opacity: 0.6;
@@ -1683,6 +1732,15 @@ function showResults() {
   state.queue.forEach(q => state.askedThisSession.add(q.text));
 
   // Persist a history row on the local device (localStorage).
+  const missedForHistory = state.answers.filter(a => !a.correct).map(a => {
+    const q = state.queue[a.qIndex];
+    return {
+      q: q.text,
+      correct: q.options[q.correct],
+      chosen: a.chosen >= 0 ? q.options[a.chosen] : null,
+      timedOut: !!a.timedOut,
+    };
+  });
   saveHistoryEntry({
     at: Date.now(),
     mode: state.mode,
@@ -1694,6 +1752,7 @@ function showResults() {
     right,
     wrong,
     accuracy: acc,
+    missed: missedForHistory,
   });
 
   $('#final-points').textContent = state.score;
@@ -1791,13 +1850,66 @@ function renderHistory() {
     const dateStr = date.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
     const modeStr = e.mode === 'test' ? 'Test' : 'Practice';
     const timerStr = e.timer > 0 ? ` · ${e.timer}s` : '';
+
+    let detailsBody;
+    if (!Array.isArray(e.missed)) {
+      detailsBody = '<div class="history-row-empty-note">No missed questions recorded for this session.</div>';
+    } else if (e.missed.length === 0) {
+      detailsBody = '<div class="history-row-empty-note">Perfect round — nothing missed.</div>';
+    } else {
+      detailsBody = e.missed.map(m => {
+        const yourLine = m.timedOut
+          ? '<div class="miss-a">⏱ Ran out of time</div>'
+          : `<div class="miss-a">You picked: ${escapeHtml(m.chosen == null ? '—' : m.chosen)}</div>`;
+        return `
+          <div class="miss-card">
+            <div class="miss-q">${escapeHtml(m.q)}</div>
+            ${yourLine}
+            <div class="miss-a">Answer: <b>${escapeHtml(m.correct)}</b></div>
+          </div>
+        `;
+      }).join('');
+    }
+
     row.innerHTML = `
-      <div class="history-row-main">
-        <div class="history-row-date">${escapeHtml(dateStr)}</div>
-        <div class="history-row-meta">${modeStr} · ${e.count} Qs${timerStr}</div>
+      <div class="history-row-header" role="button" aria-expanded="false" tabindex="0">
+        <div class="history-row-main">
+          <div class="history-row-date">${escapeHtml(dateStr)}</div>
+          <div class="history-row-meta">${modeStr} · ${e.count} Qs${timerStr}</div>
+        </div>
+        <div class="history-row-right">
+          <div class="history-row-score ${pctClass}">${e.accuracy}% · ${e.score}/${e.maxPoints}</div>
+          <div class="history-row-chevron" aria-hidden="true">▶</div>
+        </div>
       </div>
-      <div class="history-row-score ${pctClass}">${e.accuracy}% · ${e.score}/${e.maxPoints}</div>
+      <div class="history-row-details">
+        <div class="history-row-details-title">Questions you missed</div>
+        ${detailsBody}
+      </div>
     `;
+
+    const header = row.querySelector('.history-row-header');
+    const toggle = () => {
+      const nowExpanded = !row.classList.contains('expanded');
+      // Collapse any other open rows for a cleaner single-expanded UX.
+      listEl.querySelectorAll('.history-row.expanded').forEach(r => {
+        if (r !== row) {
+          r.classList.remove('expanded');
+          const h = r.querySelector('.history-row-header');
+          if (h) h.setAttribute('aria-expanded', 'false');
+        }
+      });
+      row.classList.toggle('expanded', nowExpanded);
+      header.setAttribute('aria-expanded', nowExpanded ? 'true' : 'false');
+    };
+    header.addEventListener('click', toggle);
+    header.addEventListener('keydown', ev => {
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        toggle();
+      }
+    });
+
     listEl.appendChild(row);
   });
 }
