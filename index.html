@@ -144,6 +144,56 @@
     border-color: #FFA726;
   }
 
+  .options-toggle {
+    width: 100%;
+    max-width: 440px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 18px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .options-toggle > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 20px;
+    font-weight: 800;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .options-toggle > summary::-webkit-details-marker,
+  .options-toggle > summary::marker { display: none; content: ''; }
+  .options-toggle > summary .chev {
+    display: inline-block;
+    transition: transform 0.2s cubic-bezier(.2,.8,.2,1);
+    font-size: 0.7rem;
+    opacity: 0.8;
+  }
+  .options-toggle[open] > summary .chev { transform: rotate(90deg); }
+  .options-toggle-body {
+    padding: 4px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .options-toggle-body .mode-row { margin-bottom: 10px; }
+  .options-toggle-body .category-row { margin-bottom: 10px; }
+  .options-toggle-body .option-note {
+    font-size: 0.78rem;
+    opacity: 0.7;
+    margin-bottom: 14px;
+    max-width: 360px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .options-toggle-body .option-note:last-child { margin-bottom: 0; }
+
   .category-row {
     display: flex;
     justify-content: center;
@@ -824,48 +874,45 @@
       </div>
     </div>
 
-    <div class="category-row">
-      <select id="category-select" class="category-select" aria-label="Category">
-        <option value="all">📚 All categories</option>
-      </select>
-    </div>
-    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
-      Focus on one category, or stick with the mix.
-    </div>
-
     <div class="mode-row" role="radiogroup" aria-label="Mode">
       <button class="mode-chip" data-mode="practice">Practice mode</button>
       <button class="mode-chip active" data-mode="test">Test mode</button>
     </div>
-    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
+    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 18px; max-width: 360px; text-align:center; line-height: 1.4;">
       Practice: see the answer after each question.<br>Test: no feedback until the end.
     </div>
 
-    <div class="mode-row" role="radiogroup" aria-label="Questions">
-      <button class="mode-chip count-chip" data-count="10">10 Qs</button>
-      <button class="mode-chip count-chip active" data-count="30">30 Qs</button>
-      <button class="mode-chip count-chip" data-count="0">All 410</button>
-    </div>
-    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
-      Pick a shorter round for quick practice, or the full bank to simulate the real thing.
-    </div>
+    <details class="options-toggle">
+      <summary>More options <span class="chev">▶</span></summary>
+      <div class="options-toggle-body">
+        <div class="category-row">
+          <select id="category-select" class="category-select" aria-label="Category">
+            <option value="all">📚 All categories</option>
+          </select>
+        </div>
+        <div class="option-note">Focus on one category, or stick with the mix.</div>
 
-    <div class="mode-row" role="radiogroup" aria-label="Timer">
-      <button class="mode-chip timer-chip" data-timer="0">⏱ No timer</button>
-      <button class="mode-chip timer-chip active" data-timer="25">⏱ 25 sec</button>
-      <button class="mode-chip timer-chip" data-timer="10">⚡ 10 sec</button>
-    </div>
-    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
-      Timer: answer before time runs out or it counts as wrong.
-    </div>
+        <div class="mode-row" role="radiogroup" aria-label="Questions">
+          <button class="mode-chip count-chip" data-count="10">10 Qs</button>
+          <button class="mode-chip count-chip active" data-count="30">30 Qs</button>
+          <button class="mode-chip count-chip" data-count="0">All 410</button>
+        </div>
+        <div class="option-note">Pick a shorter round for quick practice, or the full bank to simulate the real thing.</div>
 
-    <div class="mode-row" role="radiogroup" aria-label="Order">
-      <button class="mode-chip shuffle-chip active" data-shuffle="1">🔀 Shuffled</button>
-      <button class="mode-chip shuffle-chip" data-shuffle="0">📋 Original order</button>
-    </div>
-    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 28px; max-width: 360px; text-align:center; line-height: 1.4;">
-      Shuffled: questions and answer choices change each round so you can't memorize positions.
-    </div>
+        <div class="mode-row" role="radiogroup" aria-label="Timer">
+          <button class="mode-chip timer-chip" data-timer="0">⏱ No timer</button>
+          <button class="mode-chip timer-chip active" data-timer="25">⏱ 25 sec</button>
+          <button class="mode-chip timer-chip" data-timer="10">⚡ 10 sec</button>
+        </div>
+        <div class="option-note">Timer: answer before time runs out or it counts as wrong.</div>
+
+        <div class="mode-row" role="radiogroup" aria-label="Order">
+          <button class="mode-chip shuffle-chip active" data-shuffle="1">🔀 Shuffled</button>
+          <button class="mode-chip shuffle-chip" data-shuffle="0">📋 Original order</button>
+        </div>
+        <div class="option-note">Shuffled: questions and answer choices change each round so you can't memorize positions.</div>
+      </div>
+    </details>
 
     <button class="btn-primary" id="start-btn">Start</button>
     <button class="btn-link" id="history-btn">View history</button>
@@ -1493,12 +1540,32 @@ $('#max-points').textContent = MAX_POINTS.toLocaleString();
    Any category not in this map falls into an "Other" group at the bottom
    so new categories don't silently disappear from the picker. */
 const SCOPE_GROUPS = [
-  { label: 'Devices', cats: ['Computer Basics', 'Digital Devices', 'Keyboard Shortcuts', 'File Types', 'Tech Vocabulary'] },
-  { label: 'Digital Citizenship', cats: ['Digital Citizenship', 'Social Media'] },
-  { label: 'Innovation', cats: ['Coding', 'Artificial Intelligence', 'Robotics', 'Tech History', 'Fun Tech Facts', 'Creative Digital Arts'] },
-  { label: 'Internet Safety', cats: ['Internet & Safety', 'Networking'] },
-  { label: 'Bonus', cats: ['Bonus'] },
+  { label: 'Devices', icon: '🖥️', cats: ['Computer Basics', 'Digital Devices', 'Keyboard Shortcuts', 'File Types', 'Tech Vocabulary'] },
+  { label: 'Digital Citizenship', icon: '🌍', cats: ['Digital Citizenship', 'Social Media'] },
+  { label: 'Innovation', icon: '💡', cats: ['Coding', 'Artificial Intelligence', 'Robotics', 'Tech History', 'Fun Tech Facts', 'Creative Digital Arts'] },
+  { label: 'Internet Safety', icon: '🛡️', cats: ['Internet & Safety', 'Networking'] },
+  { label: 'Bonus', icon: '🎁', cats: ['Bonus'] },
 ];
+
+const CATEGORY_ICONS = {
+  'Computer Basics': '💻',
+  'Internet & Safety': '🔒',
+  'Coding': '🧑‍💻',
+  'Tech History': '📜',
+  'Digital Devices': '📱',
+  'Tech Vocabulary': '📖',
+  'Social Media': '💬',
+  'Fun Tech Facts': '⭐',
+  'Digital Citizenship': '🤝',
+  'Artificial Intelligence': '🤖',
+  'Keyboard Shortcuts': '⌨️',
+  'File Types': '📁',
+  'Robotics': '🦾',
+  'Networking': '🌐',
+  'Creative Digital Arts': '🎨',
+  'Bonus': '🎁',
+};
+const catIcon = cat => CATEGORY_ICONS[cat] || '📂';
 
 (function populateCategorySelect() {
   const counts = {};
@@ -1511,12 +1578,12 @@ const SCOPE_GROUPS = [
   for (const group of SCOPE_GROUPS) {
     const opts = group.cats
       .filter(cat => counts[cat])
-      .map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)} (${counts[cat]})</option>`);
-    if (opts.length) parts.push(`<optgroup label="${group.label}">${opts.join('')}</optgroup>`);
+      .map(cat => `<option value="${escapeHtml(cat)}">${catIcon(cat)} ${escapeHtml(cat)} (${counts[cat]})</option>`);
+    if (opts.length) parts.push(`<optgroup label="${group.icon} ${group.label}">${opts.join('')}</optgroup>`);
   }
   if (ungrouped.length) {
-    const opts = ungrouped.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)} (${counts[cat]})</option>`);
-    parts.push(`<optgroup label="Other">${opts.join('')}</optgroup>`);
+    const opts = ungrouped.map(cat => `<option value="${escapeHtml(cat)}">${catIcon(cat)} ${escapeHtml(cat)} (${counts[cat]})</option>`);
+    parts.push(`<optgroup label="📂 Other">${opts.join('')}</optgroup>`);
   }
   $('#category-select').innerHTML = parts.join('');
 })();
@@ -1674,7 +1741,7 @@ function renderQuestion() {
   $('#q-counter').textContent = `${state.index + 1} / ${state.queue.length}`;
   $('#q-score').textContent = state.score.toLocaleString();
   $('#progress-fill').style.width = (state.index / state.queue.length * 100) + '%';
-  $('#q-category').textContent = q.category;
+  $('#q-category').textContent = `${catIcon(q.category)} ${q.category}`;
   $('#q-text').textContent = q.text;
   $('#q-points').textContent = (q.points * POINT_SCALE).toLocaleString() + ' pts';
 
@@ -1940,7 +2007,7 @@ function showResults() {
     row.className = 'cat-row';
     const fillPct = Math.round(s.points / s.maxPoints * 100);
     row.innerHTML = `
-      <span class="cat-name">${escapeHtml(cat)}</span>
+      <span class="cat-name">${catIcon(cat)} ${escapeHtml(cat)}</span>
       <span class="cat-bar"><span class="cat-bar-fill" style="width:${fillPct}%"></span></span>
       <span class="cat-score">${s.correct}/${s.total}</span>
     `;
