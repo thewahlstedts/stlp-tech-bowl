@@ -144,6 +144,40 @@
     border-color: #FFA726;
   }
 
+  .category-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+    max-width: 100%;
+  }
+  .category-select {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid transparent;
+    color: white;
+    padding: 10px 38px 10px 18px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='white' d='M1 1l5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    max-width: 90vw;
+    text-align: center;
+    text-align-last: center;
+    transition: all 0.15s;
+  }
+  .category-select:active { background-color: rgba(255,255,255,0.25); }
+  .category-select option {
+    background: var(--brand-dark);
+    color: white;
+    padding: 8px;
+    font-weight: 700;
+  }
+
   .btn-primary {
     background: #FFA726;
     color: var(--brand-dark);
@@ -758,6 +792,15 @@
       Pick a shorter round for quick practice, or the full bank to simulate the real thing.
     </div>
 
+    <div class="category-row">
+      <select id="category-select" class="category-select" aria-label="Category">
+        <option value="all">📚 All categories</option>
+      </select>
+    </div>
+    <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
+      Focus on one category, or stick with the mix.
+    </div>
+
     <div class="mode-row" role="radiogroup" aria-label="Timer">
       <button class="mode-chip timer-chip active" data-timer="0">⏱ No timer</button>
       <button class="mode-chip timer-chip" data-timer="20">⏱ 20 sec</button>
@@ -1206,6 +1249,7 @@ const state = {
   mode: 'practice',
   timerSeconds: 0,   // 0 = off, otherwise seconds per question
   shuffle: true,     // shuffle question order AND answer-option positions per session
+  category: 'all',   // 'all' or a specific category string (exact match on q.category)
   questionCount: 10, // 0 = all; otherwise the number of questions to serve this session
   queue: [],         // the questions for the current session (possibly shuffled copies)
   queueMaxPoints: 0, // sum of point values in state.queue
@@ -1234,6 +1278,23 @@ const historyScreen = $('#history-screen');
 const feedback = $('#feedback');
 
 $('#max-points').textContent = MAX_POINTS;
+
+/* Populate the category dropdown with "All" + every category, each showing its count. */
+(function populateCategorySelect() {
+  const counts = {};
+  QUESTIONS.forEach(q => { counts[q.category] = (counts[q.category] || 0) + 1; });
+  const sel = $('#category-select');
+  sel.innerHTML = `<option value="all">📚 All categories (${QUESTIONS.length})</option>`;
+  Object.keys(counts).sort().forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = `${cat} (${counts[cat]})`;
+    sel.appendChild(opt);
+  });
+})();
+$('#category-select').addEventListener('change', (e) => {
+  state.category = e.target.value;
+});
 
 /* ============================================================
    Wiring
@@ -1326,17 +1387,25 @@ function clearHistory() {
    - Only top up from seen questions when there aren't enough unseen left.
    - When shuffle is on, shuffle both order and per-question option positions. */
 function buildQueue() {
-  const N = state.questionCount > 0 ? state.questionCount : QUESTIONS.length;
+  // Filter to the selected category first.
+  const categoryPool = state.category === 'all'
+    ? QUESTIONS
+    : QUESTIONS.filter(q => q.category === state.category);
+
+  // Cap the requested count to what the category actually has (e.g., 25 Qs from
+  // a category that only has 5 means you get 5).
+  const requestedN = state.questionCount > 0 ? state.questionCount : categoryPool.length;
+  const N = Math.min(requestedN, categoryPool.length);
   const minNew = N - Math.floor(N * 0.1);  // need ≥90% new; allow ≤10% repeats
 
-  let unseenOrig = QUESTIONS.filter(q => !state.askedThisSession.has(q.text));
-  // Auto-recycle: if the unseen pool is too small to satisfy the 90%-new invariant,
-  // clear the session memory so the next quiz draws from the full bank again.
+  let unseenOrig = categoryPool.filter(q => !state.askedThisSession.has(q.text));
+  // Auto-recycle: if the unseen pool within this category is too small to satisfy
+  // the 90%-new invariant, clear the session memory so the next quiz draws fresh.
   if (unseenOrig.length < minNew) {
     state.askedThisSession.clear();
-    unseenOrig = QUESTIONS.slice();
+    unseenOrig = categoryPool.slice();
   }
-  const seenOrig = QUESTIONS.filter(q => state.askedThisSession.has(q.text));
+  const seenOrig = categoryPool.filter(q => state.askedThisSession.has(q.text));
 
   // Pick the source list in preferred order (unseen first), shuffled if requested.
   const fromUnseen = state.shuffle ? shuffled(unseenOrig) : unseenOrig;
