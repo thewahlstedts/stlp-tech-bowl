@@ -825,8 +825,8 @@
     </div>
 
     <div class="mode-row" role="radiogroup" aria-label="Mode">
-      <button class="mode-chip active" data-mode="practice">Practice mode</button>
-      <button class="mode-chip" data-mode="test">Test mode</button>
+      <button class="mode-chip" data-mode="practice">Practice mode</button>
+      <button class="mode-chip active" data-mode="test">Test mode</button>
     </div>
     <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
       Practice: see the answer after each question.<br>Test: no feedback until the end.
@@ -1437,7 +1437,7 @@ const TILE_STYLES = [
    State
    ============================================================ */
 const state = {
-  mode: 'practice',
+  mode: 'test',      // 'practice' or 'test'; test matches the real STLP Tech Bowl (no between-question feedback)
   timerSeconds: 25,  // 0 = off, otherwise seconds per question (25 matches STLP Tech Bowl)
   shuffle: true,     // shuffle question order AND answer-option positions per session
   category: 'all',   // 'all' or a specific category string (exact match on q.category)

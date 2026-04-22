@@ -8,7 +8,7 @@ A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition, tuned 
 
 Quiz setup (start screen):
 
-- **Practice mode** (default) — correct answer revealed after each question. **Test mode** — no feedback until the end.
+- **Test mode** (default, matches real Tech Bowl) — no feedback until the end. **Practice mode** — correct answer revealed after each question.
 - **Question count**: 10 Qs · 30 Qs (default, matches real Tech Bowl) · All 410.
 - **Category selector** — all categories (default) or any single category; per-category question counts shown in the dropdown.
 - **Timer**: Off · 25 sec (default, matches real Tech Bowl) · 10 sec. Bar turns yellow at 5s, red and pulses at 3s. Running out counts as wrong ("⏱ Ran out of time" in the review).
