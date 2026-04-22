@@ -1471,17 +1471,37 @@ const feedback = $('#feedback');
 $('#max-points').textContent = MAX_POINTS;
 
 /* Populate the category dropdown with "All" + every category, each showing its count. */
+/* Group categories under the STLP Tech Bowl rubric's four scope areas
+   (devices, digital citizenship, innovation, internet safety) plus Bonus.
+   Any category not in this map falls into an "Other" group at the bottom
+   so new categories don't silently disappear from the picker. */
+const SCOPE_GROUPS = [
+  { label: 'Devices', cats: ['Computer Basics', 'Digital Devices', 'Keyboard Shortcuts', 'File Types', 'Tech Vocabulary'] },
+  { label: 'Digital Citizenship', cats: ['Digital Citizenship', 'Social Media'] },
+  { label: 'Innovation', cats: ['Coding', 'Artificial Intelligence', 'Robotics', 'Tech History', 'Fun Tech Facts', 'Creative Digital Arts'] },
+  { label: 'Internet Safety', cats: ['Internet & Safety', 'Networking'] },
+  { label: 'Bonus', cats: ['Bonus'] },
+];
+
 (function populateCategorySelect() {
   const counts = {};
   QUESTIONS.forEach(q => { counts[q.category] = (counts[q.category] || 0) + 1; });
-  const sel = $('#category-select');
-  sel.innerHTML = `<option value="all">📚 All categories (${QUESTIONS.length})</option>`;
-  Object.keys(counts).sort().forEach(cat => {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = `${cat} (${counts[cat]})`;
-    sel.appendChild(opt);
-  });
+  const grouped = new Set();
+  SCOPE_GROUPS.forEach(g => g.cats.forEach(c => grouped.add(c)));
+  const ungrouped = Object.keys(counts).filter(c => !grouped.has(c)).sort();
+
+  const parts = [`<option value="all">📚 All categories (${QUESTIONS.length})</option>`];
+  for (const group of SCOPE_GROUPS) {
+    const opts = group.cats
+      .filter(cat => counts[cat])
+      .map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)} (${counts[cat]})</option>`);
+    if (opts.length) parts.push(`<optgroup label="${group.label}">${opts.join('')}</optgroup>`);
+  }
+  if (ungrouped.length) {
+    const opts = ungrouped.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)} (${counts[cat]})</option>`);
+    parts.push(`<optgroup label="Other">${opts.join('')}</optgroup>`);
+  }
+  $('#category-select').innerHTML = parts.join('');
 })();
 $('#category-select').addEventListener('change', (e) => {
   state.category = e.target.value;
