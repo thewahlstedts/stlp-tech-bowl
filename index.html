@@ -811,11 +811,11 @@
 
     <div class="start-stats">
       <div class="stat">
-        <div class="stat-num">413</div>
+        <div class="stat-num">410</div>
         <div class="stat-label">Questions</div>
       </div>
       <div class="stat">
-        <div class="stat-num">17</div>
+        <div class="stat-num">16</div>
         <div class="stat-label">Categories</div>
       </div>
       <div class="stat">
@@ -833,9 +833,9 @@
     </div>
 
     <div class="mode-row" role="radiogroup" aria-label="Questions">
-      <button class="mode-chip count-chip active" data-count="10">10 Qs</button>
-      <button class="mode-chip count-chip" data-count="25">25 Qs</button>
-      <button class="mode-chip count-chip" data-count="0">All 413</button>
+      <button class="mode-chip count-chip" data-count="10">10 Qs</button>
+      <button class="mode-chip count-chip active" data-count="30">30 Qs</button>
+      <button class="mode-chip count-chip" data-count="0">All 410</button>
     </div>
     <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
       Pick a shorter round for quick practice, or the full bank to simulate the real thing.
@@ -851,8 +851,8 @@
     </div>
 
     <div class="mode-row" role="radiogroup" aria-label="Timer">
-      <button class="mode-chip timer-chip active" data-timer="0">⏱ No timer</button>
-      <button class="mode-chip timer-chip" data-timer="20">⏱ 20 sec</button>
+      <button class="mode-chip timer-chip" data-timer="0">⏱ No timer</button>
+      <button class="mode-chip timer-chip active" data-timer="25">⏱ 25 sec</button>
       <button class="mode-chip timer-chip" data-timer="10">⚡ 10 sec</button>
     </div>
     <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
@@ -1004,6 +1004,7 @@ const QUESTIONS = [
   { text: "What is \"charging\" a device?", options: ["Plugging it in (or using a wireless pad) to refill the battery with electricity", "Running the app store", "Updating the software", "Restarting the device"], correct: 0, category: "Computer Basics", points: 1 },
   { text: "What is the \"power supply\" in a desktop computer?", options: ["The part that takes wall-outlet electricity and converts it to the right voltages for the computer's parts", "The monitor", "The keyboard", "The Wi-Fi antenna"], correct: 0, category: "Computer Basics", points: 3 },
   { text: "Why does a computer have a fan inside it?", options: ["To cool the computer so parts don't overheat", "To make wind for the user", "To play music", "To connect to the internet"], correct: 0, category: "Computer Basics", points: 1 },
+  { text: "Computers represent everything — text, pictures, sound — using only two digits. What are they?", options: ["0 and 1", "1 and 2", "0, 1, and 2", "A and B"], correct: 0, category: "Computer Basics", points: 2 },
 
   // Internet & Online Safety
   { text: "What does URL stand for?", options: ["Uniform Resource Locator", "Universal Reading Link", "Unified Routing Label", "User Request Line"], correct: 0, category: "Internet & Safety", points: 2 },
@@ -1071,6 +1072,7 @@ const QUESTIONS = [
   { text: "What are \"parameters\" in a function?", options: ["Inputs the function accepts so it can work with different values each time it's called", "Error messages the function shows when something breaks", "Variables that never change", "The name of the file the function is saved in"], correct: 0, category: "Coding", points: 3 },
   { text: "What does it mean for a function to \"return\" a value?", options: ["The function sends a value back to whatever called it, so that code can use it", "It prints the value to the screen", "It deletes the value", "It saves the value to a file"], correct: 0, category: "Coding", points: 3 },
   { text: "What does it mean to \"call\" a function?", options: ["Use/run the function by name, usually passing in any values it needs", "Phone the function's creator", "Rename the function", "Delete the function"], correct: 0, category: "Coding", points: 2 },
+  { text: "You want a game character to jump ONLY when the space bar is pressed. What kind of programming statement do you need?", options: ["A loop", "A variable", "An if-then (conditional) statement", "A bug"], correct: 2, category: "Coding", points: 3 },
 
   // Tech History & Companies
   { text: "Who are the two founders who started Apple Computer in a garage?", options: ["Bill Gates and Paul Allen", "Mark Zuckerberg and Eduardo Saverin", "Steve Jobs and Steve Wozniak", "Larry Page and Sergey Brin"], correct: 2, category: "Tech History", points: 2 },
@@ -1157,13 +1159,6 @@ const QUESTIONS = [
   { text: "What does \"lag\" mean in gaming or video calls?", options: ["A delay between when you do something and when the screen responds", "A kind of power cord", "A programming language", "A social-media feature"], correct: 0, category: "Tech Vocabulary", points: 2 },
   { text: "What is a \"widget\" on a phone or computer home screen?", options: ["A small mini-app that shows info at a glance, like a clock, weather, or calendar", "A charging cable", "A kind of ringtone", "A software bug"], correct: 0, category: "Tech Vocabulary", points: 3 },
   { text: "What is an \"avatar\" online?", options: ["A picture, cartoon, or character that represents you on a website or in a game", "The name of your phone", "Your password", "Your email signature"], correct: 0, category: "Tech Vocabulary", points: 2 },
-
-  // Problem Solving & Logic
-  { text: "A robot walks 5 steps forward, turns right, then walks 3 more steps. How many total steps did it take?", options: ["7", "8", "9", "10"], correct: 1, category: "Logic", points: 2 },
-  { text: "What comes next in this binary pattern: 0, 1, 0, 1, 0, ___ ?", options: ["0", "1", "2", "10"], correct: 1, category: "Logic", points: 2 },
-  { text: "You have 3 coding tasks that each take 5 minutes. How long will all of them take?", options: ["10 minutes", "15 minutes", "20 minutes", "25 minutes"], correct: 1, category: "Logic", points: 1 },
-  { text: "Computers represent everything — text, pictures, sound — using only two digits. What are they?", options: ["0 and 1", "1 and 2", "0, 1, and 2", "A and B"], correct: 0, category: "Logic", points: 2 },
-  { text: "You want a game character to jump ONLY when the space bar is pressed. What kind of programming statement do you need?", options: ["A loop", "A variable", "An if-then (conditional) statement", "A bug"], correct: 2, category: "Logic", points: 3 },
 
   // Social Media & Communication
   { text: "What is the minimum age for most social media accounts like Instagram and TikTok?", options: ["10", "13", "16", "18"], correct: 1, category: "Social Media", points: 1 },
@@ -1443,10 +1438,10 @@ const TILE_STYLES = [
    ============================================================ */
 const state = {
   mode: 'practice',
-  timerSeconds: 0,   // 0 = off, otherwise seconds per question
+  timerSeconds: 25,  // 0 = off, otherwise seconds per question (25 matches STLP Tech Bowl)
   shuffle: true,     // shuffle question order AND answer-option positions per session
   category: 'all',   // 'all' or a specific category string (exact match on q.category)
-  questionCount: 10, // 0 = all; otherwise the number of questions to serve this session
+  questionCount: 30, // 0 = all; otherwise the number of questions to serve this session (30 matches STLP Tech Bowl)
   queue: [],         // the questions for the current session (possibly shuffled copies)
   queueMaxPoints: 0, // sum of point values in state.queue
   index: 0,

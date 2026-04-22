@@ -2,16 +2,16 @@
 
 Live at: **https://thewahlstedts.github.io/stlp-tech-bowl/**
 
-A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and iPhone. **413 questions** across **17 categories**, **923 max points**. Single static page, no backend, no accounts.
+A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and iPhone. **410 questions** across **16 categories**, **918 max points**. Single static page, no backend, no accounts.
 
 ## Features
 
 Quiz setup (start screen):
 
 - **Practice mode** (default) — correct answer revealed after each question. **Test mode** — no feedback until the end.
-- **Question count**: 10 Qs (default) · 25 Qs · All 413.
+- **Question count**: 10 Qs · 30 Qs (default, matches real Tech Bowl) · All 410.
 - **Category selector** — all categories (default) or any single category; per-category question counts shown in the dropdown.
-- **Timer**: Off (default) · 20 sec · 10 sec. Bar turns yellow at 5s, red and pulses at 3s. Running out counts as wrong ("⏱ Ran out of time" in the review).
+- **Timer**: Off · 25 sec (default, matches real Tech Bowl) · 10 sec. Bar turns yellow at 5s, red and pulses at 3s. Running out counts as wrong ("⏱ Ran out of time" in the review).
 - **Shuffle** (default on) — randomizes both question order and each question's answer positions, so you can't memorize by position.
 
 Sessions and history:
@@ -41,7 +41,7 @@ Install and offline:
 
 ## Editing questions
 
-All questions live in the `QUESTIONS` array inside `index.html` (413 entries). Shape:
+All questions live in the `QUESTIONS` array inside `index.html` (410 entries). Shape:
 
 ```js
 {
@@ -55,9 +55,9 @@ All questions live in the `QUESTIONS` array inside `index.html` (413 entries). S
 
 No build step. Edit, save, push.
 
-## Categories (17)
+## Categories (16)
 
-Computer Basics · Internet & Safety · Coding · Tech History · Digital Devices · Tech Vocabulary · Logic · Social Media · Fun Tech Facts · Digital Citizenship · Artificial Intelligence · Keyboard Shortcuts · File Types · Robotics · Networking · Creative Digital Arts · Bonus
+Computer Basics · Internet & Safety · Coding · Tech History · Digital Devices · Tech Vocabulary · Social Media · Fun Tech Facts · Digital Citizenship · Artificial Intelligence · Keyboard Shortcuts · File Types · Robotics · Networking · Creative Digital Arts · Bonus
 
 ## Deploying your own copy
 
