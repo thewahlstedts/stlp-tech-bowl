@@ -2,14 +2,14 @@
 
 Live at: **https://thewahlstedts.github.io/stlp-tech-bowl/**
 
-A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and iPhone. **403 questions** across **17 categories**, **902 max points**. Single static page, no backend, no accounts.
+A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and iPhone. **413 questions** across **17 categories**, **923 max points**. Single static page, no backend, no accounts.
 
 ## Features
 
 Quiz setup (start screen):
 
 - **Practice mode** (default) — correct answer revealed after each question. **Test mode** — no feedback until the end.
-- **Question count**: 10 Qs (default) · 25 Qs · All 403.
+- **Question count**: 10 Qs (default) · 25 Qs · All 413.
 - **Category selector** — all categories (default) or any single category; per-category question counts shown in the dropdown.
 - **Timer**: Off (default) · 20 sec · 10 sec. Bar turns yellow at 5s, red and pulses at 3s. Running out counts as wrong ("⏱ Ran out of time" in the review).
 - **Shuffle** (default on) — randomizes both question order and each question's answer positions, so you can't memorize by position.
@@ -41,7 +41,7 @@ Install and offline:
 
 ## Editing questions
 
-All questions live in the `QUESTIONS` array inside `index.html` (403 entries). Shape:
+All questions live in the `QUESTIONS` array inside `index.html` (413 entries). Shape:
 
 ```js
 {

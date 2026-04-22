@@ -811,7 +811,7 @@
 
     <div class="start-stats">
       <div class="stat">
-        <div class="stat-num">403</div>
+        <div class="stat-num">413</div>
         <div class="stat-label">Questions</div>
       </div>
       <div class="stat">
@@ -835,7 +835,7 @@
     <div class="mode-row" role="radiogroup" aria-label="Questions">
       <button class="mode-chip count-chip active" data-count="10">10 Qs</button>
       <button class="mode-chip count-chip" data-count="25">25 Qs</button>
-      <button class="mode-chip count-chip" data-count="0">All 403</button>
+      <button class="mode-chip count-chip" data-count="0">All 413</button>
     </div>
     <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
       Pick a shorter round for quick practice, or the full bank to simulate the real thing.
@@ -1067,6 +1067,10 @@ const QUESTIONS = [
   { text: "What does the `print` command do in Python (and many languages)?", options: ["Shows text or a value on the screen", "Prints the page on a paper printer", "Deletes a file", "Plays a sound"], correct: 0, category: "Coding", points: 2 },
   { text: "In Scratch, a block that says \"repeat 5 times\" will do what?", options: ["Run whatever code is inside it exactly 5 times", "Play a song 5 times louder", "Move the sprite 5 pixels", "Close the program"], correct: 0, category: "Coding", points: 1 },
   { text: "What does it mean to \"compile\" code?", options: ["Translate the source code into instructions the computer's processor can actually run", "Delete all the code", "Print the code on paper", "Back up the code to the cloud"], correct: 0, category: "Coding", points: 3 },
+  { text: "What's a \"for loop\" (a partner to the \"while loop\" you already know)?", options: ["A loop that runs a specific number of times, usually counting through a range of values", "A loop that runs forever until you unplug the computer", "A function that only prints text", "A kind of variable"], correct: 0, category: "Coding", points: 3 },
+  { text: "What are \"parameters\" in a function?", options: ["Inputs the function accepts so it can work with different values each time it's called", "Error messages the function shows when something breaks", "Variables that never change", "The name of the file the function is saved in"], correct: 0, category: "Coding", points: 3 },
+  { text: "What does it mean for a function to \"return\" a value?", options: ["The function sends a value back to whatever called it, so that code can use it", "It prints the value to the screen", "It deletes the value", "It saves the value to a file"], correct: 0, category: "Coding", points: 3 },
+  { text: "What does it mean to \"call\" a function?", options: ["Use/run the function by name, usually passing in any values it needs", "Phone the function's creator", "Rename the function", "Delete the function"], correct: 0, category: "Coding", points: 2 },
 
   // Tech History & Companies
   { text: "Who are the two founders who started Apple Computer in a garage?", options: ["Bill Gates and Paul Allen", "Mark Zuckerberg and Eduardo Saverin", "Steve Jobs and Steve Wozniak", "Larry Page and Sergey Brin"], correct: 2, category: "Tech History", points: 2 },
@@ -1287,6 +1291,12 @@ const QUESTIONS = [
   { text: "What does the Print Screen (PrtScn) key do on Windows?", options: ["Captures the current screen as an image (a screenshot)", "Prints the page on paper", "Turns on the printer", "Sends the page by email"], correct: 0, category: "Keyboard Shortcuts", points: 3 },
   { text: "What does Ctrl+W do in most web browsers?", options: ["Closes the current tab", "Opens a new window", "Refreshes the page", "Takes a screenshot"], correct: 0, category: "Keyboard Shortcuts", points: 2 },
   { text: "What does Alt+F4 do on a Windows computer?", options: ["Closes the current app or window", "Opens the calculator", "Takes a screenshot", "Turns the computer off immediately"], correct: 0, category: "Keyboard Shortcuts", points: 3 },
+  { text: "What does Ctrl+Y (or Ctrl+Shift+Z) usually do?", options: ["Redo — puts back what you just undid", "Closes the window", "Copies text", "Takes a screenshot"], correct: 0, category: "Keyboard Shortcuts", points: 2 },
+  { text: "What does the Windows key (⊞) on a PC, or the Command key (⌘) on a Mac, mainly do?", options: ["Opens the system menu and pairs with letters to run many shortcuts", "Types the letter W", "Turns off the computer", "Deletes the current file"], correct: 0, category: "Keyboard Shortcuts", points: 2 },
+  { text: "When you're typing, what do the arrow keys do?", options: ["Move the cursor one character (or line) at a time", "Scroll the entire webpage up and down", "Change the font size", "Delete letters"], correct: 0, category: "Keyboard Shortcuts", points: 1 },
+  { text: "What do the Home and End keys usually do in a text document?", options: ["Home jumps to the start of the current line; End jumps to the end of the line", "They are the same as the left/right arrow keys", "Home takes you to the app's home screen", "End closes the program"], correct: 0, category: "Keyboard Shortcuts", points: 3 },
+  { text: "What does the spacebar usually do in many video or music players?", options: ["Plays or pauses the current video or song", "Rewinds 10 seconds", "Closes the player", "Changes the volume"], correct: 0, category: "Keyboard Shortcuts", points: 1 },
+  { text: "What does Caps Lock do on a keyboard?", options: ["Makes the letters you type all UPPERCASE until you press it again", "Deletes everything you typed", "Closes the app", "Prints the page"], correct: 0, category: "Keyboard Shortcuts", points: 1 },
 
   // File Types & Storage
   { text: "What kind of file ends in .jpg or .png?", options: ["A video file", "A sound file", "An image (picture) file", "A text document"], correct: 2, category: "File Types", points: 2 },
