@@ -811,7 +811,7 @@
 
     <div class="start-stats">
       <div class="stat">
-        <div class="stat-num">332</div>
+        <div class="stat-num">369</div>
         <div class="stat-label">Questions</div>
       </div>
       <div class="stat">
@@ -835,7 +835,7 @@
     <div class="mode-row" role="radiogroup" aria-label="Questions">
       <button class="mode-chip count-chip active" data-count="10">10 Qs</button>
       <button class="mode-chip count-chip" data-count="25">25 Qs</button>
-      <button class="mode-chip count-chip" data-count="0">All 332</button>
+      <button class="mode-chip count-chip" data-count="0">All 369</button>
     </div>
     <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 14px; max-width: 360px; text-align:center; line-height: 1.4;">
       Pick a shorter round for quick practice, or the full bank to simulate the real thing.
@@ -1000,6 +1000,8 @@ const QUESTIONS = [
   { text: "What's the difference between \"Sleep mode\" and \"Shut down\"?", options: ["Sleep keeps the computer ready to resume quickly; Shut down turns it off completely", "They are the same", "Sleep is only for phones, Shut down is only for laptops", "Sleep deletes your work, Shut down saves it"], correct: 0, category: "Computer Basics", points: 3 },
   { text: "What is \"Task Manager\" (Windows) or \"Activity Monitor\" (Mac) used for?", options: ["Seeing what programs are currently running and closing ones that are frozen", "Sending email", "Browsing the web", "Editing photos"], correct: 0, category: "Computer Basics", points: 3 },
   { text: "What is a \"Blue Screen of Death\" on Windows?", options: ["A bright blue error screen shown when Windows crashes badly", "A type of screensaver", "The login screen", "The desktop wallpaper when dark mode is off"], correct: 0, category: "Computer Basics", points: 3 },
+  { text: "What is an \"SD card\" (memory card) used for?", options: ["Storing extra photos, videos, and files — external memory for cameras, phones, and small devices", "Sending text messages", "Playing music out loud", "A type of password"], correct: 0, category: "Computer Basics", points: 2 },
+  { text: "What is \"charging\" a device?", options: ["Plugging it in (or using a wireless pad) to refill the battery with electricity", "Running the app store", "Updating the software", "Restarting the device"], correct: 0, category: "Computer Basics", points: 1 },
 
   // Internet & Online Safety
   { text: "What does URL stand for?", options: ["Uniform Resource Locator", "Universal Reading Link", "Unified Routing Label", "User Request Line"], correct: 0, category: "Internet & Safety", points: 2 },
@@ -1027,6 +1029,8 @@ const QUESTIONS = [
   { text: "You get an email from \"your bank\" asking for your password. What should you do?", options: ["Don't respond — banks never ask for your password by email; it's likely a phishing scam", "Reply with your password right away", "Click every link in it to see where they go", "Forward it to friends"], correct: 0, category: "Internet & Safety", points: 3 },
   { text: "What is \"private browsing\" (or \"incognito mode\")?", options: ["A browser mode that doesn't save your browsing history locally", "A way to hide your real IP address from everyone", "A way to make internet free", "A type of antivirus"], correct: 0, category: "Internet & Safety", points: 2 },
   { text: "What is a \"security update\" on your phone or computer?", options: ["A free patch from the maker that fixes newly-discovered security problems", "A website that sells antivirus software", "A type of phishing email", "A game you install for fun"], correct: 0, category: "Internet & Safety", points: 3 },
+  { text: "What is a \"password manager\"?", options: ["An app that stores strong, unique passwords for all your accounts so you only need to remember one master password", "A website that tells you your password", "A person you call when you forget a password", "A game where you guess passwords"], correct: 0, category: "Internet & Safety", points: 3 },
+  { text: "What should you do if you think your password has been stolen?", options: ["Change it right away on that account (and anywhere else you used it)", "Keep using it — nothing you can do", "Write it down on paper", "Tell it to more people"], correct: 0, category: "Internet & Safety", points: 2 },
 
   // Coding & Programming
   { text: "What is a \"bug\" in computer programming?", options: ["A cool new feature", "An error or mistake in the code", "A type of memory", "A kind of computer"], correct: 1, category: "Coding", points: 2 },
@@ -1053,6 +1057,9 @@ const QUESTIONS = [
   { text: "What is \"Hour of Code\"?", options: ["An annual event that introduces kids to coding with short, fun activities", "A coding class that lasts 60 minutes every school day", "A kids movie about a hacker", "A popular video game"], correct: 0, category: "Coding", points: 3 },
   { text: "What is a \"variable name\" in programming?", options: ["The label you give to a value in your code so you can use it later (like `score` or `playerName`)", "The name of the programming language", "The file name of your code", "A kind of error"], correct: 0, category: "Coding", points: 2 },
   { text: "What is a \"syntax error\" in code?", options: ["A mistake that breaks the rules of the programming language, so the code can't run", "When the code runs too slowly", "When the screen goes blank", "When the computer beeps"], correct: 0, category: "Coding", points: 2 },
+  { text: "What is an \"IDE\" in programming?", options: ["An Integrated Development Environment — a program where you write, test, and debug code (like VS Code or Xcode)", "A type of computer virus", "A file extension", "A single line of code"], correct: 0, category: "Coding", points: 3 },
+  { text: "What does `git commit` do in version control?", options: ["Saves a snapshot of your current changes to the project's history", "Deletes all the code", "Emails your code to someone", "Runs the program"], correct: 0, category: "Coding", points: 3 },
+  { text: "What is a \"while loop\"?", options: ["A loop that keeps repeating as long as a condition stays true", "A loop that runs exactly 10 times", "A type of error", "A comment in the code"], correct: 0, category: "Coding", points: 3 },
 
   // Tech History & Companies
   { text: "Who are the two founders who started Apple Computer in a garage?", options: ["Bill Gates and Paul Allen", "Mark Zuckerberg and Eduardo Saverin", "Steve Jobs and Steve Wozniak", "Larry Page and Sergey Brin"], correct: 2, category: "Tech History", points: 2 },
@@ -1080,6 +1087,9 @@ const QUESTIONS = [
   { text: "Facebook originally launched in 2004 as a site for what group of people?", options: ["College students", "Elementary-school teachers", "Retired grandparents", "Professional athletes"], correct: 0, category: "Tech History", points: 2 },
   { text: "What was Netflix's original business, before it became a streaming service?", options: ["Mailing DVDs to customers in red envelopes", "Selling books online", "Making video game consoles", "Running a search engine"], correct: 0, category: "Tech History", points: 3 },
   { text: "What is Wikipedia?", options: ["A free online encyclopedia that anyone can read and edit", "A search engine like Google", "A social network", "A video-streaming site"], correct: 0, category: "Tech History", points: 1 },
+  { text: "What was Napster (from 1999)?", options: ["An early music-sharing service that became famous (and controversial) for letting people share songs for free", "A video game console", "A smartphone", "A web browser"], correct: 0, category: "Tech History", points: 3 },
+  { text: "Who is the current CEO of Apple (who took over from Steve Jobs)?", options: ["Tim Cook", "Bill Gates", "Elon Musk", "Mark Zuckerberg"], correct: 0, category: "Tech History", points: 2 },
+  { text: "In what year was the first text message sent?", options: ["1972", "1982", "1992", "2002"], correct: 2, category: "Tech History", points: 3 },
 
   // Digital Devices
   { text: "What do we call a computer you can carry around and use on your lap?", options: ["A laptop", "A desktop", "A server", "A mainframe"], correct: 0, category: "Digital Devices", points: 1 },
@@ -1103,6 +1113,9 @@ const QUESTIONS = [
   { text: "What does \"Do Not Disturb\" mode on a phone do?", options: ["Silences calls, texts, and notifications so you're not interrupted", "Turns off the screen forever", "Makes the phone vibrate more", "Locks the phone with a password"], correct: 0, category: "Digital Devices", points: 2 },
   { text: "What is a \"trackpad\"?", options: ["A flat touch surface on a laptop that replaces a mouse", "A type of keyboard", "A kind of screen", "A charging cable"], correct: 0, category: "Digital Devices", points: 1 },
   { text: "What is \"wireless charging\"?", options: ["Charging a device by placing it on a pad, without a cable plugged in", "Charging with a USB cable", "Charging with solar panels only", "Charging by shaking the device"], correct: 0, category: "Digital Devices", points: 2 },
+  { text: "What are \"AirPods\" (or similar wireless earbuds)?", options: ["Tiny wireless speakers for your ears that usually connect via Bluetooth", "A type of charging cable", "A kind of game controller", "A type of phone case"], correct: 0, category: "Digital Devices", points: 1 },
+  { text: "What is a \"game controller\"?", options: ["A handheld input device with buttons and joysticks used to play video games", "A TV remote", "A kind of mouse", "A type of keyboard"], correct: 0, category: "Digital Devices", points: 1 },
+  { text: "What is a \"VR headset\" like Meta Quest?", options: ["Goggles that show you a 3D virtual environment you can look around in", "A type of motorcycle helmet", "A pair of sunglasses with a phone clip", "A camera filter"], correct: 0, category: "Digital Devices", points: 2 },
 
   // Tech Vocabulary
   { text: "What does \"AI\" stand for?", options: ["Automatic Internet", "Artificial Intelligence", "Advanced Information", "Apple Interface"], correct: 1, category: "Tech Vocabulary", points: 2 },
@@ -1124,6 +1137,8 @@ const QUESTIONS = [
   { text: "What is a \"username\"?", options: ["The name you pick to identify yourself on an app or website", "Your legal full name", "Your phone number", "The password you type"], correct: 0, category: "Tech Vocabulary", points: 1 },
   { text: "What does \"upload speed\" measure?", options: ["How fast data can go from your device up to the internet", "How fast your computer starts", "How many apps fit on your phone", "How bright the screen is"], correct: 0, category: "Tech Vocabulary", points: 2 },
   { text: "What is a \"dashboard\" inside an app or website?", options: ["A page that shows you important information at a glance — stats, charts, shortcuts", "The part of a car you look at while driving", "A keyboard shortcut", "A file storage folder"], correct: 0, category: "Tech Vocabulary", points: 3 },
+  { text: "What is a \"glitch\" in a video game or app?", options: ["A temporary bug or weird behavior in the software", "A type of keyboard shortcut", "A programming language", "A kind of sensor"], correct: 0, category: "Tech Vocabulary", points: 2 },
+  { text: "What does \"lag\" mean in gaming or video calls?", options: ["A delay between when you do something and when the screen responds", "A kind of power cord", "A programming language", "A social-media feature"], correct: 0, category: "Tech Vocabulary", points: 2 },
 
   // Problem Solving & Logic
   { text: "A robot walks 5 steps forward, turns right, then walks 3 more steps. How many total steps did it take?", options: ["7", "8", "9", "10"], correct: 1, category: "Logic", points: 2 },
@@ -1155,6 +1170,8 @@ const QUESTIONS = [
   { text: "What is a \"subscriber\" on a YouTube channel?", options: ["A viewer who chooses to follow a channel so new videos appear in their feed", "A person who pays for YouTube Premium", "A person who uploads their own videos", "A type of comment"], correct: 0, category: "Social Media", points: 1 },
   { text: "What is a \"story\" on Instagram or Snapchat?", options: ["A temporary post (photo or short video) that disappears after 24 hours", "A long written blog post", "A type of direct message", "A paid advertisement only"], correct: 0, category: "Social Media", points: 2 },
   { text: "What does it mean to \"tag\" someone in a post?", options: ["Link or mention them so they get a notification and others can click to their profile", "Send them a private message", "Block them from seeing the post", "Delete their account"], correct: 0, category: "Social Media", points: 3 },
+  { text: "What does it mean when something is \"trending\" on social media?", options: ["It's a topic, hashtag, or video that a lot of people are sharing or discussing right now", "It's stored in the cloud", "It's the oldest post on the platform", "It's an ad that plays automatically"], correct: 0, category: "Social Media", points: 2 },
+  { text: "What is a \"read receipt\" in a messaging app?", options: ["A notification showing that the person has opened and read your message", "A refund for buying an app", "A warning about spam", "A password reset code"], correct: 0, category: "Social Media", points: 2 },
 
   // Fun Tech Facts
   { text: "A standard full-size US keyboard has around how many keys?", options: ["26", "50", "104", "200"], correct: 2, category: "Fun Tech Facts", points: 2 },
@@ -1177,6 +1194,8 @@ const QUESTIONS = [
   { text: "Computer games were first created in the 1950s, long before home consoles.", options: ["True", "False"], correct: 0, category: "Fun Tech Facts", points: 3 },
   { text: "What is \"Moore's Law\" roughly about?", options: ["Computer chips tend to get roughly twice as powerful every couple of years, making computers faster and smaller over time", "Computers get twice as heavy every year", "Phones become cheaper every 5 years", "The internet doubles in size every month"], correct: 0, category: "Fun Tech Facts", points: 3 },
   { text: "About how much did the ENIAC — one of the first electronic computers — weigh?", options: ["About 30 tons (as much as several cars)", "About 30 pounds", "About 3 pounds", "About 300 tons"], correct: 0, category: "Fun Tech Facts", points: 3 },
+  { text: "How many pixels are in one \"megapixel\"?", options: ["Ten", "One thousand", "One million", "One billion"], correct: 2, category: "Fun Tech Facts", points: 3 },
+  { text: "What is the \"refresh rate\" of a screen measured in?", options: ["Hertz (Hz) — how many times per second the screen updates the image", "Megabytes", "Miles per hour", "Degrees"], correct: 0, category: "Fun Tech Facts", points: 3 },
 
   // Digital Citizenship & Ethics
   { text: "What is a \"digital footprint\"?", options: ["The trail of information you leave online", "A cool new app", "A kind of emoji", "A computer virus"], correct: 0, category: "Digital Citizenship", points: 2 },
@@ -1198,6 +1217,8 @@ const QUESTIONS = [
   { text: "What are \"closed captions\" on a video?", options: ["On-screen text showing the spoken words, useful for people who can't hear well or for noisy rooms", "The title of the video", "The video's description", "The comments"], correct: 0, category: "Digital Citizenship", points: 2 },
   { text: "What does \"accessibility\" mean in tech?", options: ["Designing technology so people with different abilities (blindness, deafness, motor differences, etc.) can use it", "Making technology cheap", "Charging for premium features", "A type of privacy setting"], correct: 0, category: "Digital Citizenship", points: 3 },
   { text: "What is the \"digital divide\"?", options: ["The gap between people who have access to modern technology and those who don't", "A type of computer virus", "A software bug", "A game franchise"], correct: 0, category: "Digital Citizenship", points: 3 },
+  { text: "What is \"fair use\" in copyright?", options: ["A rule allowing limited use of copyrighted material for purposes like education, reporting, or commentary", "A rule saying copyright doesn't exist online", "A type of computer program", "A type of fine for piracy"], correct: 0, category: "Digital Citizenship", points: 3 },
+  { text: "What's a good \"golden rule\" for being online?", options: ["Treat others the way you'd want to be treated", "Never go online", "Share everything with strangers", "Respond to every message within one minute"], correct: 0, category: "Digital Citizenship", points: 2 },
 
   // Artificial Intelligence
   { text: "What is a chatbot?", options: ["A robot that vacuums floors", "A computer program that has conversations with you using text or voice", "A new video game", "A type of printer"], correct: 1, category: "Artificial Intelligence", points: 2 },
@@ -1218,6 +1239,8 @@ const QUESTIONS = [
   { text: "What is a \"smart home\"?", options: ["A home with devices (lights, thermostats, locks, speakers) you can control with a phone or voice", "A home with solar panels on the roof", "A home that teaches math", "A home with no people living in it"], correct: 0, category: "Artificial Intelligence", points: 2 },
   { text: "What does it mean when an AI \"understands context\"?", options: ["It takes the surrounding information into account to give a better answer, not just the exact words you asked", "It can read your mind", "It controls your phone without permission", "It never needs training data"], correct: 0, category: "Artificial Intelligence", points: 3 },
   { text: "What is a \"neural network\" in AI?", options: ["A system of connected nodes (loosely inspired by the brain) that learns patterns from data", "A physical network cable", "A social network", "A programming language"], correct: 0, category: "Artificial Intelligence", points: 3 },
+  { text: "What is \"face recognition\" technology?", options: ["AI that identifies a person by scanning their face (used in phones, photo apps, and security)", "A type of emoji", "An exercise app", "A browser extension"], correct: 0, category: "Artificial Intelligence", points: 2 },
+  { text: "What is \"prompt engineering\" in AI?", options: ["Carefully crafting the input (prompt) you type to an AI so it gives you a better answer", "Fixing the AI's hardware", "Choosing the AI's background color", "A type of computer virus"], correct: 0, category: "Artificial Intelligence", points: 3 },
 
   // Keyboard Shortcuts
   { text: "What does the shortcut Ctrl+C do?", options: ["Cut", "Copy", "Close", "Paste"], correct: 1, category: "Keyboard Shortcuts", points: 1 },
@@ -1237,6 +1260,9 @@ const QUESTIONS = [
   { text: "What does the Escape (Esc) key usually do?", options: ["Cancels or closes the current dialog, menu, or mode", "Takes a screenshot", "Turns off the screen", "Types the letter \"E\""], correct: 0, category: "Keyboard Shortcuts", points: 1 },
   { text: "What does the Tab key usually do on a web form?", options: ["Moves your cursor to the next input field", "Opens a new tab", "Deletes everything", "Submits the form"], correct: 0, category: "Keyboard Shortcuts", points: 2 },
   { text: "What does F5 (or Ctrl+R / Command+R) do in a web browser?", options: ["Refreshes (reloads) the current page", "Closes the browser", "Opens a new window", "Takes a screenshot"], correct: 0, category: "Keyboard Shortcuts", points: 2 },
+  { text: "What does Ctrl+B usually do in a document?", options: ["Makes the selected text bold", "Opens a book", "Deletes a backup", "Starts a new paragraph"], correct: 0, category: "Keyboard Shortcuts", points: 1 },
+  { text: "What does Ctrl+I usually do in a document?", options: ["Makes the selected text italic", "Inserts an image", "Imports a file", "Opens help"], correct: 0, category: "Keyboard Shortcuts", points: 1 },
+  { text: "What does the Print Screen (PrtScn) key do on Windows?", options: ["Captures the current screen as an image (a screenshot)", "Prints the page on paper", "Turns on the printer", "Sends the page by email"], correct: 0, category: "Keyboard Shortcuts", points: 3 },
 
   // File Types & Storage
   { text: "What kind of file ends in .jpg or .png?", options: ["A video file", "A sound file", "An image (picture) file", "A text document"], correct: 2, category: "File Types", points: 2 },
@@ -1256,6 +1282,8 @@ const QUESTIONS = [
   { text: "What kind of file ends in \".mov\"?", options: ["A video file (Apple QuickTime format)", "An audio file", "A photo", "A presentation"], correct: 0, category: "File Types", points: 2 },
   { text: "What kind of file ends in \".ppt\" or \".pptx\"?", options: ["A slide presentation (like Microsoft PowerPoint)", "A spreadsheet", "A video", "A photo"], correct: 0, category: "File Types", points: 2 },
   { text: "What kind of file ends in \".svg\"?", options: ["A Scalable Vector Graphics image — it stays sharp at any size because it's drawn with math, not pixels", "A music file", "A zip archive", "A video"], correct: 0, category: "File Types", points: 3 },
+  { text: "What kind of file ends in \".apk\"?", options: ["An Android app installation file", "An Apple app", "A presentation", "A web page"], correct: 0, category: "File Types", points: 3 },
+  { text: "What kind of file ends in \".md\"?", options: ["A Markdown file — plain text with simple formatting like headers and bold", "A music file", "A medical document", "A video"], correct: 0, category: "File Types", points: 3 },
 
   // Robotics & Sensors
   { text: "What is a sensor on a robot?", options: ["Something that makes the robot move", "A part that detects things like light, distance, or touch", "The robot's storage for code", "The battery charger"], correct: 1, category: "Robotics", points: 2 },
@@ -1273,6 +1301,8 @@ const QUESTIONS = [
   { text: "What is the \"end effector\" on a robotic arm?", options: ["The part at the end that grabs, picks, or interacts with objects (like a hand or gripper)", "The battery", "The computer chip inside", "The wheels"], correct: 0, category: "Robotics", points: 3 },
   { text: "What is a \"proximity sensor\"?", options: ["A sensor that detects how close another object is (used on phones, cars, robots)", "A motor that spins very fast", "A type of battery", "A speaker"], correct: 0, category: "Robotics", points: 2 },
   { text: "What does NASA's Mars rover (like *Perseverance*) mainly do?", options: ["Drives across the surface of Mars collecting samples and sending back data", "Flies through space to other galaxies", "Stays in orbit around Earth", "Cleans ocean water"], correct: 0, category: "Robotics", points: 2 },
+  { text: "What is a \"light sensor\" on a robot used for?", options: ["Detecting how bright the environment is, so the robot can react to light and dark", "Counting money", "Making the robot heavier", "Playing sounds"], correct: 0, category: "Robotics", points: 2 },
+  { text: "What is \"Boston Dynamics\" famous for?", options: ["Making advanced robots that can walk, run, and do flips (like Spot the robot dog)", "Making sneakers", "Making phones", "Making a sports team"], correct: 0, category: "Robotics", points: 3 },
 
   // Networking & Connections
   { text: "What device in your home broadcasts the Wi-Fi signal so your devices can connect?", options: ["Printer", "Router", "Monitor", "Keyboard"], correct: 1, category: "Networking", points: 2 },
@@ -1292,6 +1322,8 @@ const QUESTIONS = [
   { text: "What do the \"Wi-Fi bars\" on your phone usually show?", options: ["How strong your Wi-Fi signal is — more bars means a stronger connection", "Your battery level", "The current time", "How many apps you have installed"], correct: 0, category: "Networking", points: 2 },
   { text: "What is \"tethering\" on a phone?", options: ["Sharing your phone's internet connection with another device (like a laptop)", "Hanging your phone on a rope", "A way to make Wi-Fi faster", "A phone repair technique"], correct: 0, category: "Networking", points: 3 },
   { text: "What does it mean to be \"offline\"?", options: ["Not connected to the internet", "Browsing quickly", "Using a VPN", "Running out of battery"], correct: 0, category: "Networking", points: 1 },
+  { text: "What does a device's \"MAC address\" identify?", options: ["A unique hardware ID for each network device (different from an IP address)", "The device's owner's first name", "The nearest Apple Store", "The Wi-Fi password"], correct: 0, category: "Networking", points: 3 },
+  { text: "What does \"streaming\" a video or song mean?", options: ["Watching or listening over the internet as the data arrives, without fully downloading it first", "Only watching videos saved to your device", "Typing in a search", "Recording a video"], correct: 0, category: "Networking", points: 1 },
 
   // Creative Digital Arts
   { text: "What is a podcast?", options: ["A type of video game", "A computer virus", "A digital audio show you can listen to", "A social media platform"], correct: 2, category: "Creative Digital Arts", points: 2 },
@@ -1311,6 +1343,8 @@ const QUESTIONS = [
   { text: "What is a \"font\" on a computer?", options: ["A particular style of letters, numbers, and symbols used for text", "A type of photo filter", "A kind of background music", "A color setting"], correct: 0, category: "Creative Digital Arts", points: 1 },
   { text: "What is \"iMovie\" or \"Premiere Pro\"?", options: ["Apps used for editing videos", "Apps for listening to music", "Web browsers", "Cloud-storage services"], correct: 0, category: "Creative Digital Arts", points: 2 },
   { text: "What is \"Procreate\"?", options: ["A popular digital drawing and painting app, especially on iPad", "A music-streaming service", "A type of 3D printer", "A programming language"], correct: 0, category: "Creative Digital Arts", points: 2 },
+  { text: "What is a \"layer\" in design apps like Photoshop or Procreate?", options: ["A stackable see-through sheet — separate elements can live on different layers and be edited independently", "A type of brush", "A file format", "A keyboard shortcut"], correct: 0, category: "Creative Digital Arts", points: 3 },
+  { text: "What is \"GarageBand\"?", options: ["An Apple app for creating music, with virtual instruments, recording, and editing", "A video-editing app", "A photo-sharing site", "A game console"], correct: 0, category: "Creative Digital Arts", points: 2 },
 
   // Bonus / Tiebreaker
   { text: "What does HTML stand for?", options: ["High-Tech Machine Language", "HyperText Markup Language", "Home Tool Modeling Language", "HyperText Memory Link"], correct: 1, category: "Bonus", points: 3 },
@@ -1339,6 +1373,9 @@ const QUESTIONS = [
   { text: "What was the very first thing ever connected to a webcam, at Cambridge University in the 1990s?", options: ["A coffee pot (so researchers could check if it was full without getting up)", "A thermostat", "A garage door", "A vending machine"], correct: 0, category: "Bonus", points: 5 },
   { text: "What was Google originally called before the founders renamed it?", options: ["BackRub", "WebCrawl", "SearchMe", "FindIt"], correct: 0, category: "Bonus", points: 5 },
   { text: "In \"ChatGPT\", what does \"GPT\" stand for?", options: ["Generative Pre-trained Transformer", "General Prediction Tool", "Global Processing Tech", "Graphical Parse Template"], correct: 0, category: "Bonus", points: 5 },
+  { text: "What was the very first text message ever sent, in 1992?", options: ["\"Merry Christmas\"", "\"Hello, World!\"", "\"Test message\"", "\"Can you hear me?\""], correct: 0, category: "Bonus", points: 5 },
+  { text: "What does \"bot\" in \"chatbot\" or \"Twitter bot\" short for?", options: ["Robot — an automated program that does tasks on its own", "Bottom", "Boot (like a shoe)", "Bought"], correct: 0, category: "Bonus", points: 3 },
+  { text: "Gordon Moore — the person \"Moore's Law\" is named after — co-founded which famous chip company?", options: ["Intel", "Apple", "Microsoft", "Samsung"], correct: 0, category: "Bonus", points: 5 },
 ];
 
 /* ============================================================
