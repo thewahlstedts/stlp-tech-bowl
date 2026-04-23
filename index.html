@@ -436,7 +436,9 @@
     min-height: 0;
   }
   .answers-grid.two-up {
-    grid-template-rows: 1fr;
+    flex: 0 0 auto;
+    grid-template-rows: min(42vh, 260px);
+    align-self: stretch;
   }
   .answers-grid.two-up .answer-tile {
     justify-content: center;
@@ -913,8 +915,8 @@
     </div>
 
     <div class="mode-row" role="radiogroup" aria-label="Mode">
-      <button class="mode-chip" data-mode="practice">Practice mode</button>
-      <button class="mode-chip active" data-mode="test">Test mode</button>
+      <button class="mode-chip" role="radio" aria-checked="false" data-mode="practice">Practice mode</button>
+      <button class="mode-chip active" role="radio" aria-checked="true" data-mode="test">Test mode</button>
     </div>
     <div style="font-size: 0.8rem; opacity: 0.75; margin-bottom: 18px; max-width: 360px; text-align:center; line-height: 1.4;">
       Practice: see the answer after each question.<br>Test: no feedback until the end.
@@ -931,22 +933,22 @@
         <div class="option-note">Focus on one category, or stick with the mix.</div>
 
         <div class="mode-row" role="radiogroup" aria-label="Questions">
-          <button class="mode-chip count-chip" data-count="10">10 Qs</button>
-          <button class="mode-chip count-chip active" data-count="30">30 Qs</button>
-          <button class="mode-chip count-chip" data-count="0">All 410</button>
+          <button class="mode-chip count-chip" role="radio" aria-checked="false" data-count="10">10 Qs</button>
+          <button class="mode-chip count-chip active" role="radio" aria-checked="true" data-count="30">30 Qs</button>
+          <button class="mode-chip count-chip" role="radio" aria-checked="false" data-count="0">All 410</button>
         </div>
         <div class="option-note">Pick a shorter round for quick practice, or the full bank to simulate the real thing.</div>
 
         <div class="mode-row" role="radiogroup" aria-label="Timer">
-          <button class="mode-chip timer-chip" data-timer="0">⏱ No timer</button>
-          <button class="mode-chip timer-chip active" data-timer="25">⏱ 25 sec</button>
-          <button class="mode-chip timer-chip" data-timer="10">⚡ 10 sec</button>
+          <button class="mode-chip timer-chip" role="radio" aria-checked="false" data-timer="0">⏱ No timer</button>
+          <button class="mode-chip timer-chip active" role="radio" aria-checked="true" data-timer="25">⏱ 25 sec</button>
+          <button class="mode-chip timer-chip" role="radio" aria-checked="false" data-timer="10">⚡ 10 sec</button>
         </div>
         <div class="option-note">Timer: answer before time runs out or it counts as wrong.</div>
 
         <div class="mode-row" role="radiogroup" aria-label="Order">
-          <button class="mode-chip shuffle-chip active" data-shuffle="1">🔀 Shuffled</button>
-          <button class="mode-chip shuffle-chip" data-shuffle="0">📋 Original order</button>
+          <button class="mode-chip shuffle-chip active" role="radio" aria-checked="true" data-shuffle="1">🔀 Shuffled</button>
+          <button class="mode-chip shuffle-chip" role="radio" aria-checked="false" data-shuffle="0">📋 Original order</button>
         </div>
         <div class="option-note">Shuffled: questions and answer choices change each round so you can't memorize positions.</div>
       </div>
@@ -1638,8 +1640,12 @@ $$('.mode-chip').forEach(chip => {
   chip.addEventListener('click', () => {
     // Only deselect chips in the same mode-row (same radiogroup)
     const siblings = chip.parentElement.querySelectorAll('.mode-chip');
-    siblings.forEach(c => c.classList.remove('active'));
+    siblings.forEach(c => {
+      c.classList.remove('active');
+      if (c.getAttribute('role') === 'radio') c.setAttribute('aria-checked', 'false');
+    });
     chip.classList.add('active');
+    if (chip.getAttribute('role') === 'radio') chip.setAttribute('aria-checked', 'true');
     if (chip.dataset.mode) state.mode = chip.dataset.mode;
     if (chip.dataset.timer !== undefined) state.timerSeconds = parseInt(chip.dataset.timer, 10);
     if (chip.dataset.shuffle !== undefined) state.shuffle = chip.dataset.shuffle === '1';
