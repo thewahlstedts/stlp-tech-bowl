@@ -74,6 +74,19 @@
       var(--brand);
     padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
   }
+  /* PWA status-bar mask: with apple-mobile-web-app-status-bar-style=black-translucent,
+     content scrolls under the notch/status bar. This fixed bar hides it. */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top, 0px);
+    background: var(--brand-dark);
+    z-index: 100;
+    pointer-events: none;
+  }
 
   #app { height: 100%; display: flex; flex-direction: column; position: relative; }
 
@@ -85,11 +98,18 @@
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    padding: max(54px, calc(env(safe-area-inset-top) + 6px)) 24px max(8px, env(safe-area-inset-bottom));
+    padding: 0 24px max(8px, env(safe-area-inset-bottom));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
   .start > * { flex-shrink: 0; }
+  /* Spacer scrolls away with content so content can pass under the iOS
+     status bar — plain padding-top stays pinned in mobile Safari. */
+  .safe-top-spacer {
+    flex-shrink: 0;
+    height: max(54px, calc(env(safe-area-inset-top) + 6px));
+    width: 100%;
+  }
   .start-logo {
     font-size: clamp(2.5rem, 8vw, 4.5rem);
     font-weight: 900;
@@ -581,7 +601,7 @@
     justify-content: flex-start;
     align-items: center;
     overflow-y: auto;
-    padding: max(54px, calc(env(safe-area-inset-top) + 6px)) 18px max(8px, env(safe-area-inset-bottom));
+    padding: 0 18px max(8px, env(safe-area-inset-bottom));
   }
   .results-title {
     font-size: clamp(2rem, 6vw, 3rem);
@@ -726,7 +746,7 @@
     justify-content: flex-start;
     align-items: center;
     overflow-y: auto;
-    padding: max(54px, calc(env(safe-area-inset-top) + 6px)) 18px max(8px, env(safe-area-inset-bottom));
+    padding: 0 18px max(8px, env(safe-area-inset-bottom));
   }
   .history-top {
     display: flex;
@@ -873,6 +893,7 @@
 
   <!-- START SCREEN -->
   <div class="screen start" id="start-screen">
+    <div class="safe-top-spacer"></div>
     <div class="start-logo">STLP<br><span class="accent">Tech Bowl</span></div>
     <div class="start-sub">Practice quiz · 5th grade</div>
 
@@ -937,6 +958,7 @@
 
   <!-- HISTORY SCREEN -->
   <div class="screen history hidden" id="history-screen">
+    <div class="safe-top-spacer"></div>
     <div class="history-top">
       <button class="hud-btn" id="history-back-btn">← Back</button>
       <h2 class="history-title">History</h2>
@@ -992,6 +1014,7 @@
 
   <!-- RESULTS SCREEN -->
   <div class="screen results hidden" id="results-screen">
+    <div class="safe-top-spacer"></div>
     <div class="results-title" id="results-title">Nice work!</div>
     <div class="results-sub" id="results-sub">Here's how you did</div>
 
