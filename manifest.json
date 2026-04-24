@@ -1,7 +1,7 @@
 {
   "name": "STLP Tech Bowl Practice",
   "short_name": "Tech Bowl",
-  "description": "A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition with 201 questions across 17 categories.",
+  "description": "A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition with 410 questions across 16 categories.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

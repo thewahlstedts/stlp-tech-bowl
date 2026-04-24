@@ -30,8 +30,9 @@ Look and feel:
 Install and offline:
 
 - **PWA installable** — `manifest.json` plus `apple-touch-icon`, `icon-192`, `icon-512`, and `favicon-32` mean iPhone/iPad users get a proper app icon when adding to Home Screen.
+- **True offline support** — a service worker (`sw.js`) precaches the app shell and all 410 questions on first load. The quiz works on Airplane Mode / no Wi-Fi once the PWA has been opened once online. Google Fonts are stale-while-revalidate, so typography holds up offline too.
 - **Link previews** — `og-preview.png` wired into Open Graph / Twitter cards.
-- **No backend** — pure HTML/CSS/JS. Runs offline after first load. No login, no tracking, no analytics.
+- **No backend** — pure HTML/CSS/JS. No login, no tracking, no analytics.
 
 ## Add to iPad / iPhone home screen
 
@@ -54,6 +55,8 @@ All questions live in the `QUESTIONS` array inside `index.html` (410 entries). S
 ```
 
 No build step. Edit, save, push.
+
+**When editing `index.html` or any precached asset (manifest, icons, `og-preview.png`), bump the `CACHE` constant in `sw.js`** (`stlp-tech-bowl-v1` → `v2` → `v3` …). Without the bump, installed PWAs keep serving the old cached HTML and users never see the new questions. The service worker's `activate` handler evicts the old cache automatically once the version changes.
 
 ## STLP Tech Bowl — what the real event looks like
 
