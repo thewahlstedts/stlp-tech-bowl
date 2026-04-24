@@ -75,6 +75,7 @@ Any new category not in `SCOPE_GROUPS` falls into an "Other" optgroup at the bot
 - Local history via localStorage (100-entry cap). "View history" screen shows Games / Best / Avg stats, per-quiz list, Reset history button.
 - Results screen: score, per-category breakdown, review of missed questions.
 - PWA installable (manifest + full icon set).
+- Service worker (`sw.js`) for true offline support — app shell + questions precached, Google Fonts stale-while-revalidate, HTML network-first so new deploys reach online users.
 - Dynamic Island / safe-area-aware CSS (`env(safe-area-inset-*)`).
 - OG / Twitter card preview wired up.
 
@@ -97,11 +98,19 @@ When Carlo reports a visual bug on iOS, know that both Safari and the installed 
 
 Don't assume a change is broken until you know the cache isn't lying.
 
-## 9. Memory system
+## 9. Service worker cache-bump rule (MANDATORY)
+
+`sw.js` precaches the app shell: `index.html`, `manifest.json`, every icon (`icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`, `favicon-32.png`), and `og-preview.png`. The cache is keyed by a `CACHE` constant at the top of `sw.js` (starts at `stlp-tech-bowl-v1`).
+
+**Any change that modifies a precached file — including adding or editing questions inside `index.html` — MUST bump `CACHE`** (`v1` → `v2` → `v3` …). The `activate` handler evicts the old cache automatically once the version changes. Without a bump, installed PWAs (especially on iPad) keep serving the old cached HTML and the user never sees the new content.
+
+Claude should treat this as automatic, not optional: whenever you edit `index.html`, `manifest.json`, or any icon/OG asset in the same commit, also bump `CACHE` in `sw.js`. If you're unsure whether a change is "material", bump anyway — an unnecessary bump only costs users one extra fetch; a missed bump costs them stale questions.
+
+## 10. Memory system
 
 The user has a persistent memory at `/Users/carlowahlstedt/.claude/projects/-Users-carlowahlstedt-Source-Github-thewahlstedts-stlp-tech-bowl/memory/`. Read `MEMORY.md` there first — it indexes `user_profile.md`, `feedback_style.md`, `feedback_ios_caching.md`, and `project_stlp_tech_bowl.md`.
 
-## 10. Open threads
+## 11. Open threads
 
 - **Speed-bonus scoring mode**: real Kahoot awards more points for faster correct answers; the app currently gives flat per-question points. Not implemented. Ask before adding — it changes the shape of every stored history entry and the max-points display.
 - **Logic category was removed.** The user rejected the first batch of Logic drafts and Logic is no longer in the QUESTIONS array. Don't reintroduce it unless asked with a specific style direction.
