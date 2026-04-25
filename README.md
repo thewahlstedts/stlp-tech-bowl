@@ -6,6 +6,10 @@ Live at: **https://thewahlstedts.github.io/stlp-tech-bowl/**
 
 A practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and iPhone. **410 questions** across **16 categories**, **918 max points**. Single static page, no backend, no accounts.
 
+## Demo
+
+https://github.com/thewahlstedts/stlp-tech-bowl/raw/main/demo.mp4
+
 ## Features
 
 Quiz setup (start screen):
