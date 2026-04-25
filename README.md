@@ -9,7 +9,7 @@ A practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and 
 ## Demo
 
 <!-- Replace the line below with the user-attachments URL from a drag-drop upload (see instructions in chat). -->
-[demo.mp4](demo.mp4)
+https://github.com/user-attachments/assets/acf49bf0-53a6-476e-987e-34e01388bcaf
 
 ## Features
 
