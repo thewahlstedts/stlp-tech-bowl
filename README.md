@@ -8,7 +8,8 @@ A practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and 
 
 ## Demo
 
-<video src="https://github.com/thewahlstedts/stlp-tech-bowl/raw/main/demo.mp4" controls muted loop playsinline width="320"></video>
+<!-- Replace the line below with the user-attachments URL from a drag-drop upload (see instructions in chat). -->
+[demo.mp4](demo.mp4)
 
 ## Features
 
