@@ -2,7 +2,7 @@
 
 Live at: **https://thewahlstedts.github.io/stlp-tech-bowl/**
 
-A Kahoot-style practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and iPhone. **410 questions** across **16 categories**, **918 max points**. Single static page, no backend, no accounts.
+A practice quiz for the Kentucky STLP Tech Bowl competition, tuned for iPad and iPhone. **410 questions** across **16 categories**, **918 max points**. Single static page, no backend, no accounts.
 
 ## Features
 
@@ -22,7 +22,6 @@ Sessions and history:
 
 Look and feel:
 
-- Kahoot-inspired UI: red triangle / blue diamond / yellow circle / green square.
 - **Dynamic Island aware** — uses `env(safe-area-inset-*)` so the layout behaves on modern iPhones.
 - Touch-friendly; works in portrait or landscape.
 - Enter/Space activate answer buttons (standard button semantics).
@@ -63,10 +62,10 @@ No build step. Edit, save, push.
 Per the official Kentucky Department of Education STLP Tech Bowl rubric:
 
 - **Format**: Live Kahoot! quiz at the STLP State Championship. Individual event, 2 students per school.
-- **Divisions** (K–12):
-  - Elementary — Grades K–5
-  - Middle — Grades 6–8
-  - High — Grades 9–12
+- **Divisions** (K-12):
+  - Elementary — Grades K-5
+  - Middle — Grades 6-8
+  - High — Grades 9-12
 - **Scope**: "knowledge of all things technology — from devices and digital citizenship to innovation and internet safety." Those four areas (Devices, Digital Citizenship, Innovation, Internet Safety) are the rubric's scope buckets.
 - **Session length**: ~30 general technology questions per round. This app defaults to 30.
 - **Per-question timer**: up to 25 seconds (or until everyone has answered). This app defaults to 25 sec.
